@@ -1,0 +1,15 @@
+<div class="page">
+    <div class="title">Código de verificación</div>
+    <h4>Proteger tu cuenta es nuestra prioridad. Ingresa el código de 6 dígitos que acaba de ser enviado a tu número de celular.</h4>
+    <div class="big-inputs" [formGroup]="inputsForm">
+        <input #input1 (click)="clean()" (keyup)="onChange(input1, input2)" type="text" formControlName="number1" maxlength="1" class="big-input" required>
+        <input #input2 (keyup)="onChange(input2, input3)" type="text" formControlName="number2" maxlength="1" class="big-input" required>
+        <input #input3 (keyup)="onChange(input3, input4)" type="text" formControlName="number3" maxlength="1" class="big-input" required>
+        <input #input4 (keyup)="onChange(input4, input5)" type="text" formControlName="number4" maxlength="1" class="big-input" required>
+        <input #input5 (keyup)="onChange(input5, input6)" type="text" formControlName="number5" maxlength="1" class="big-input" required>
+        <input #input6 type="text" formControlName="number6" maxlength="1" class="big-input" required>
+    </div>
+    <div class="text">
+        <h4>No recibiste un código? <span (click)="tryAgain.emit()">Volver a enviar</span></h4>
+    </div>
+</div>

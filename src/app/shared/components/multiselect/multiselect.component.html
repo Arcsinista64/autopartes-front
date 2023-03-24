@@ -1,0 +1,34 @@
+<label class="label">{{label}}</label>
+<div class="array-items">
+    <div class="selected" *ngFor="let item of (matSelect?.value || []); let i = index">
+        <p>
+            {{getName(item)}}
+        </p>
+        <label>
+            <mat-icon (click)="delete($event, i)" aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+        </label>
+    </div>
+</div>
+<mat-form-field [formGroup]="formGrp" appearance="standard">
+    <mat-select 
+        multiple 
+        #matSelect
+        [placeholder]="placeholder"
+        [formControlName]="formCtr" 
+        (selectionChange)="showIcon()"
+        (openedChange)="resetFilterOptions()">
+        <mat-select-trigger>
+            {{(matSelect.value && data && data[getIndex(matSelect.value[0])]) ? data[getIndex(matSelect.value[0])][displayKey] : ''}}
+            <span *ngIf="matSelect.value?.length > 1">
+                (+{{matSelect.value.length - 1}} {{matSelect.value?.length === 2 ? 'seleccionado' : 'seleccionados'}})
+            </span>
+        </mat-select-trigger>
+        <div class="input">
+            <mat-icon class="icon left" aria-hidden="false" aria-label="Example home icon">search</mat-icon>
+            <input class="search" placeholder="Escribe aquí lo que buscas" (keyup)="filterFunc()" [(ngModel)]="filterText" [ngModelOptions]="{standalone: true}" type="text" >
+            <mat-icon class="icon right" (click)="matSelect.toggle()" aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+        </div>
+        <mat-option *ngFor="let item of dataBackup" [value]="item[selectKey]">{{item[displayKey]}}</mat-option>
+    </mat-select>
+    <!-- <mat-icon *ngIf="showResetIcon" class="reset" (click)="resetFilters($event)" aria-hidden="false" aria-label="Example home icon">autorenew</mat-icon> -->
+</mat-form-field>

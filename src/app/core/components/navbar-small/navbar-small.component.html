@@ -1,0 +1,16 @@
+<div class="container" [@show]="state">
+    <mat-icon (click)="changeState()">close</mat-icon>
+    <div  class="back" [@widthGrow]="state">
+        <!-- <div class="top">
+            <svg (click)="changeState()" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L13 13M1 13L13 1L1 13Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>            
+            <a routerLink="/user" (click)="changeState()">
+                <img src="assets/logo.png" />
+            </a>
+        </div> -->
+        <a *ngFor="let item of routes1" [routerLink]="item.route" (click)="changeState()">{{item.name}}</a>
+        <a *ngFor="let item of routes2" (click)="goTo(item.id || '')" >{{item.name}}</a>
+        <a *ngFor="let item of routes3" (click)="gotToRoutes3(item.route || '')" (click)="changeState()">{{item.name}}</a>
+    </div>
+</div>

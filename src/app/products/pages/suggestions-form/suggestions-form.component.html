@@ -1,0 +1,23 @@
+<div class="small-searcher">
+    <app-search-small title="Formulario"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div [formGroup]="suggestionForm" class="suggestions-container">
+    <app-title title="Formulario"></app-title>
+    <div class="row">
+        <app-input [material]="true" [formCtr]="email" label="Correo electrónico" placeholder="Correo electrónico"></app-input>
+        <span class="error-msg" *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">Formato de correo electrónico incorrecto</span>
+    </div>
+    
+    <div class="row">
+        <app-input [material]="true" [formCtr]="description" label="Escribe aquí lo que necesitas" placeholder="Escribe aquí lo que necesitas"></app-input>
+        <span class="error-msg" *ngIf="description?.errors?.required && (description?.dirty || description?.touched)">Escribe aquí lo que necesitas. Vehículo, modelo, tipo, etc. </span>
+    </div>
+    
+    <div class="row send-button">
+        <app-button class="btn" (click)="sendSuggestion()" text="Enviar"></app-button>
+    </div>
+</div>
+
+
+

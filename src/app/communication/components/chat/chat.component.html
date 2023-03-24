@@ -1,0 +1,20 @@
+<div class="messages-list" [ngClass]="{'not-seen': !seen}" (click)="openChat()">
+    <div class="profile-pic">
+        <span
+        [ngClass]=" {
+            'zeroth': color==='0' || color==='4' || color==='8' || color==='c', 
+            'first':  color==='1' || color==='5' || color==='9' || color==='d', 
+            'second': color==='2' || color==='6' || color==='a' || color==='f', 
+            'third':  color==='3' || color==='7' || color==='b' || color==='e'
+        }">{{initial}}</span>
+    </div>
+    <div class="preview">
+        <p>{{principalText}}</p>
+        <p>{{secondaryText}}</p>
+    </div>
+
+    <div class="time">
+        <div class="p">{{time | date:'short'}}</div>
+    </div>
+</div>
+

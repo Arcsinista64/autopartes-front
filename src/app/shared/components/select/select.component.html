@@ -1,0 +1,21 @@
+<label *ngIf="!hideLabel || showLabel" class="label">{{label}}</label>
+<label *ngIf="hideLabel && displayLabel" style="visibility: hidden;" class="label">hidden</label>
+<mat-form-field appearance="standard" [formGroup]="formGrp" >
+    <mat-select 
+        #matSelect
+        (openedChange)="resetFilterOptions()" 
+        (selectionChange)="change()"
+        [placeholder]="placeholder" 
+        [formControlName]="formCtr">
+        <div class="input">
+            <mat-icon class="icon left" aria-hidden="false" aria-label="Example home icon">search</mat-icon>
+            <input class="search" [placeholder]="searchPlaceholder" (keyup)="filterFunc()" [(ngModel)]="filterText" [ngModelOptions]="{standalone: true}" type="text" >
+            <mat-icon class="icon right" (click)="matSelect.toggle()" aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+        </div>
+        <mat-option *ngFor="let item of dataBackup" [value]="item[selectKey]">
+            {{item[displayKey]}}
+        </mat-option>
+    </mat-select>
+    <!-- <mat-icon *ngIf="matSelect.value && !disableReset" class="reset" (click)="resetFilters($event)" aria-hidden="false" aria-label="Example home icon">autorenew</mat-icon> -->
+</mat-form-field>
+<ng-content></ng-content>

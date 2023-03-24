@@ -1,0 +1,14 @@
+<div class="small-searcher">
+    <app-search-small title="Decodifica tu serie"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<div class="container">
+    <app-title title="Decodifica tu serie"></app-title>
+    <p>Ingresa el número de 17 dígitos</p>
+    <div class="input">
+        <app-input (iconAction)="decodeVIN()" [formCtr]="number" (keydown.enter)="decodeVIN()" icon="search" placeholder="Número"></app-input>
+        <p *ngIf="number.invalid && number?.dirty && !number?.errors?.pattern">¡Número requerido!</p>
+        <p *ngIf="number?.errors?.pattern">Sólo números</p>
+    </div>
+</div>

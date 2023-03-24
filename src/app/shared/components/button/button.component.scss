@@ -1,0 +1,105 @@
+@import '_variable.scss';
+button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: flex;
+    font-size: 14px;
+    line-height: 22px;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 18px;
+        height: auto;
+        margin: auto 0;
+        padding: 0 6px;
+    }
+
+    p { margin: auto 0; }
+    &:disabled { opacity: 0.5; }
+    &:hover { cursor: pointer; }
+
+    span { 
+        gap: 12px;
+        display: grid;
+        grid-template-columns: min-content auto;
+    }
+}
+
+.primary, .tertiary {
+    border: none;
+    color: white;
+    background-color: $secondary-color;
+    border: 1px solid $secondary-color;
+    &:hover:not([disabled]) {
+        cursor: pointer;
+        border: 1px solid $button-hover;
+        background-color: $button-hover;
+    }
+    p {
+        color: white;
+        padding: 0 12px;
+    }
+}
+
+.secondary {
+    font-family: Arial;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    // text-align: left;
+    width: 100%;
+    height: 100%;
+    border: none;
+    color: #636363;
+    border-radius: 3px;
+    background: white;
+    text-align: center;
+    margin-right: 10px;
+    border: 1px solid #9D9D9D;
+
+    &:hover { 
+        cursor: pointer; 
+        border: 1px solid #333333;
+        color: #333333;
+
+        background-color: white;
+    }
+
+    p { color: #636363; }
+}
+
+.tertiary { 
+    border: 1px solid #263E6D !important;
+    background-color: #263E6Df1;
+    &:hover { 
+        background-color: #263E6D !important;
+    }
+}
+
+.quaternary { 
+    border: 1px solid #3567ccbf !important;
+    background: #3567CCf1;
+    color: white;
+    &:hover { 
+        background: #3567CC !important;
+    }
+}
+
+.quinternary { 
+    border: 1px solid #3498cabf !important;
+    background: #3498CAf1;
+    color: white;
+    &:hover { 
+        background: #3498CA !important;
+    }
+}
+
+::ng-deep .mat-progress-spinner circle, .mat-spinner circle { 
+    stroke: white;
+}
+
+

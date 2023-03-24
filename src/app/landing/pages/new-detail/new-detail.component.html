@@ -1,0 +1,18 @@
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div class="small-searcher">
+    <app-search-small title=""></app-search-small>
+</div>
+
+<div *ngIf="new$ | async as new" class="new-detail-content">
+    <div class="img-container">
+        <img [src]="new.multimedia[0].image">
+    </div>
+
+    <div class="title">
+        <app-title [title]="new.title"></app-title>
+        <h6> {{new.created_at | date:'fullDate'}} </h6>
+    </div>
+    <p>
+        {{ new.text }}
+    </p>
+</div>

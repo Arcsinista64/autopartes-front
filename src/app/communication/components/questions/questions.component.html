@@ -1,0 +1,96 @@
+<div *ngIf="empty" class="empty-notifications">
+    <span>
+        <img src="assets/icons/empty-notifications.svg" alt="">
+    </span>
+    <h3>Aún no tienes preguntas</h3>
+</div>
+<div class="chat">
+    <div class="chat_list">
+        <app-chat [class.hide]="details" 
+          *ngFor="let item of chatList; let i = index" 
+          (notificationSelected)="setCrumb($event)" 
+          (chatSelected)="openChat(
+            $event, 
+            item.notification.sender.first_name, 
+            item.id, 
+            item.notification.receiver.first_name, 
+            item.sender_seen,
+            item.seller_notification
+          )"
+          [id]="item.id"
+          [principalText]="item.notification.title"  
+          [secondaryText]="item.notification.snippet"  
+          [senderName]="item.notification.sender.first_name"  
+          [time]="item.notification.updated_at"
+          [seen]="item.sender_seen">
+        </app-chat>
+    </div>
+    <div class="chat_panel" style="background: rgb(250, 250, 250); margin: 6px;" *ngIf="selectedQuestionID===''" >
+        <app-wording style="visibility: hidden;" [seller]="seller" [chatType]="2"></app-wording>
+    </div>
+    <div class="chat_panel" *ngIf="selectedQuestionID!==''">
+      <ng-container *ngIf="question$ | async as question">
+        <app-wording [chatType]='2' [seller]="seller" [data]="question"></app-wording>
+        <h2>Mensaje de {{question.notification?.sender.first_name}}</h2>
+        <div class="container">
+            <div class="sender">
+              <div class="sender_initial">
+                <span class="sender_initial" [ngClass]=" {
+                    'zeroth': colorSender[0]==='0' || colorSender[0]==='4' || colorSender[0]==='8' || colorSender[0]==='c', 
+                    'first':  colorSender[0]==='1' || colorSender[0]==='5' || colorSender[0]==='9' || colorSender[0]==='d', 
+                    'second': colorSender[0]==='2' || colorSender[0]==='6' || colorSender[0]==='a' || colorSender[0]==='f', 
+                    'third':  colorSender[0]==='3' || colorSender[0]==='7' || colorSender[0]==='b' || colorSender[0]==='e'
+                }">{{initialSender}}</span>
+              </div>
+              <div class="sender_question">
+                <p>{{question.notification?.message}}</p>
+              </div>
+            </div>
+
+            <div *ngIf="question.reply" class="receiver">
+              <div class="receiver_initial">
+                <span class="receiver_initial" [ngClass]=" {
+                    'receiver': colorReceiver[0]==='receiver',
+                    'zeroth':   colorReceiver[0]==='0' || colorReceiver[0]==='4' || colorReceiver[0]==='8' || colorReceiver[0]==='c', 
+                    'first':    colorReceiver[0]==='1' || colorReceiver[0]==='5' || colorReceiver[0]==='9' || colorReceiver[0]==='d', 
+                    'second':   colorReceiver[0]==='2' || colorReceiver[0]==='6' || colorReceiver[0]==='a' || colorReceiver[0]==='f', 
+                    'third':    colorReceiver[0]==='3' || colorReceiver[0]==='7' || colorReceiver[0]==='b' || colorReceiver[0]==='e'
+                }">{{initialReceiver}}</span>
+              </div>
+              <div class="receiver_reply">
+                <p>{{question.reply}}</p>
+              </div>
+              <div class="buttons" *ngIf="seller">
+                <app-button theme="secondary" *ngIf="!question.published" (click)="publishProduct()" class="btn" text="Publicar en Artículo"></app-button>
+                <app-button theme="disabled" *ngIf="question.published" class="btn" text="Pregunta publicada"></app-button>
+              </div>
+            </div>
+
+            <div *ngIf="!question.reply && seller" class="receiver">
+              <div class="receiver_initial">
+                <span class="receiver_initial" [ngClass]=" {
+                    'receiver': colorReceiver[0]==='receiver',
+                    'zeroth':   colorReceiver[0]==='0' || colorReceiver[0]==='4' || colorReceiver[0]==='8' || colorReceiver[0]==='c', 
+                    'first':    colorReceiver[0]==='1' || colorReceiver[0]==='5' || colorReceiver[0]==='9' || colorReceiver[0]==='d', 
+                    'second':   colorReceiver[0]==='2' || colorReceiver[0]==='6' || colorReceiver[0]==='a' || colorReceiver[0]==='f', 
+                    'third':    colorReceiver[0]==='3' || colorReceiver[0]==='7' || colorReceiver[0]==='b' || colorReceiver[0]==='e'
+                }">{{initialReceiver}}</span>
+              </div>
+              <ng-container *ngIf="seller">
+                <div [formGroup]="questionForm" class="receiver_reply">
+                  <textarea formControlName="replyQuestion" placeholder="Mensaje ..." (focus)="emailError = ''; phoneError = ''"></textarea>
+                  <div *ngIf="replyQuestion?.invalid && replyQuestion?.dirty">
+                      <span class="error-msg" *ngIf="replyQuestion?.errors?.required">Respuesta necesaria</span>
+                  </div>
+                  <span class="error-msg">{{emailError}}</span>
+                  <span class="error-msg">{{phoneError}}</span>
+                </div>
+                <div class="buttons">
+                  <app-button (click)="reply()" class="btn" text="Contestar"></app-button>
+                </div>
+              </ng-container>
+            </div>
+        </div>
+      </ng-container>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+<ng-container *ngIf="order$ | async as order">
+    <div class="success-page-container">
+        <div class="success-card">
+            <div class="success-top">
+                <img src="assets/icons/success.svg" alt="">
+                <p>Hemos recibido tu orden</p>
+                <div class="last-row">
+                    <p class="order" (click)="gotToOrderDetail()">Número de orden: 
+                        <span>{{order.public_id}}</span> 
+                    </p>
+                    <div class="btn" *ngIf="downPDFurl !== 'null'" (click)="downloadPDF(downPDFurl)">
+                        <img src="assets/checkout/download.svg" alt="">
+                        Descargar PDF
+                    </div>
+                </div>
+            </div>
+            <div class="success-table">
+                <p>Resumen de tu pedido</p>
+                <p>Total: {{order.totals.total | currency}}</p>
+                <app-dynamic-table [data]="products$" [displayedColumns]="displayedColumns">
+    
+                    <ng-container matColumnDef="img">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <img [src]="element.product.multimedia[0].image">
+                        </mat-cell>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="details">
+                        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <div>
+                                <p>{{element.product.name || ''}}</p>
+                                <p>Cantidad: {{element.quantity}}</p>
+                                <p>Costo: {{getShipping(element.product.price, element.shipping_cost) | currency}}</p>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+    
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+                </app-dynamic-table>
+    
+            </div>
+            <div class="success-info">
+                <div class="address-info">
+                    <p style="font-weight: bold;">Información de envío</p>
+                    <p>{{order.address.name}}</p>
+                    <p>{{order.address.street}} #{{order.address.ext_number}}</p>
+                    <p>{{order.address.neighborhood}}</p>
+                    <p>{{order.address.municipality.name}}, {{order.address.state.name}}, {{order.address.country.name}} {{order.address.postal_code}}</p>
+                    <p>Telefono: {{order.address.phone_number}}</p>
+                </div>
+                <div class="payment-info"> 
+                    <p style="font-weight: bold;">Método de pago</p>
+                    <ng-container *ngIf="downPDFurl === 'null'">
+                        <p>{{order.payments[0].payment_method.owner_name}}</p>
+    
+                        <div class="payment-card-row">
+                            <img *ngIf="order.payments[0].payment_method.card_type === 0" class="mastercard" src="assets/icons/mastercard.svg" alt="">
+                            <img *ngIf="order.payments[0].payment_method.card_type === 1" src="assets/icons/visa.svg" alt="">
+                            <img *ngIf="order.payments[0].payment_method.card_type === 2" src="assets/icons/amex-card.svg" alt="">
+                            <p>**** **** **** {{order.payments[0].payment_method.last_four_digits}}</p>
+                        </div>
+                        <p>Exp: {{getMonth(order.payments[0].payment_method.exp_month)}}/{{lastTwo(order.payments[0].payment_method.exp_year)}}</p>
+                    </ng-container>
+                    <ng-container *ngIf="downPDFurl !== 'null'">
+                        <div class="payment-card-row">
+                            <img src="assets/checkout/oxxo.svg"  alt="">
+                            <p>Pago en tiendas OXXO</p>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="success-btn-row">
+            <div class="success-btn">
+                <app-button style="min-width: 150px;" class="btn" (click)="exit()" text="Seguir navegando productos">
+                </app-button>
+            </div>
+        </div>
+    
+    </div>
+</ng-container>

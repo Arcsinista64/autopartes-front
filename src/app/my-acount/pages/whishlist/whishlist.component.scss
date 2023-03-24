@@ -1,0 +1,253 @@
+:host ::ng-deep {
+    app-title {
+        h1 {
+            margin: 0;
+        }
+    }
+    table { 
+        border: 1px solid transparent !important;
+    }
+}
+
+.wishlist-header {
+    margin: 0 10%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .filters {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .wording {
+        width: 100%;
+        font-size: 18px;
+        color: #636363;
+        line-height: 21px;
+        font-weight: 500;
+        font-style: normal;
+        font-family: Arial;
+    }
+}
+
+.empty { 
+    margin: 10%;
+    display: grid;
+    gap: 18px;
+    h1 { 
+        color: #fd3d00;
+        margin: 0;
+        font-size: 16px;
+    }
+    p { 
+        color: #636363;
+    }
+    .btn { 
+        max-width: 240px;
+        height: 43px;
+    }
+}
+@media screen and (max-width: 900px) {
+    .wishlist-header {
+        margin: 12px 24px;
+        div {
+            width: 50%;
+        }
+    }
+}
+
+.wishlist-container {
+    margin: 24px 10% 42px 10%;
+}
+
+.wishlist-item {
+    margin: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    font-family: Arial;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #5b5b5b;
+    flex-wrap: wrap;
+    p {
+        margin: 0;
+    }
+    div {
+        width: 40%;
+    }
+}
+
+.product-name { 
+    &:hover { 
+        cursor: pointer; 
+        color:#fd3d00;
+    }
+}
+
+.price {
+    font-size: 16px;
+    line-height: 21px;
+}
+mat-header-row {
+    display: none;
+}
+
+::ng-deep table.mat-table.cdk-table {
+    border: none;
+}
+
+mat-row.mat-row.cdk-row.ng-star-inserted {
+    flex-wrap: wrap;
+    margin: 6px 0 -2px 0;
+}
+
+mat-cell { 
+    max-height: 250px;
+    img { 
+        height: auto;
+        width: auto;
+        max-height: calc(250px - 32px);
+        max-width: calc(190px - 32px);
+        padding: 24px 0;
+    }
+}
+
+mat-cell:first-of-type { 
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    max-width: max-content;
+    min-width: 190px;
+}
+
+mat-cell:last-of-type { 
+    max-width: max-content;
+}
+
+mat-cell.mat-cell.cdk-cell.cdk-column-img.mat-column-img.ng-star-inserted {
+    padding: 0px 16px;
+    min-width: 214px;
+    justify-content: flex-start;
+
+    img {
+        height: auto;
+        width: auto;
+        margin: 24px 12px;
+        max-width: 190px;
+        border-radius: 3px;
+    }
+}
+
+mat-cell.mat-cell.cdk-column-description_price.mat-column-description_price.ng-star-inserted {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 24px;
+    p {
+        margin: 12px 0;
+    }
+}
+
+mat-cell.mat-cell.cdk-cell.cdk-column-cart_delete.mat-column-cart_delete.ng-star-inserted {
+    justify-content: flex-end;
+    min-width: 200px;
+    padding-right: 0 !important;
+}
+
+.price-cell {
+    height: auto;
+    .cart-button { 
+        width: 180px;
+        height: 43px;
+        margin: 16px 0;
+    }
+    p {
+        margin: 0;
+        text-align: right;
+        font-size: 12px;
+        line-height: 18px;
+        color: #fd3d00;
+        min-width: 95px;
+    }
+    p:hover {
+        text-decoration-line: underline;
+        cursor: pointer;
+    }
+}
+
+.modal-delete-content {
+    p {
+        font-family: Arial;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 18px;
+        color: #636363;
+        margin: 24px 0;
+    }
+}
+
+.modal-delete-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    margin: 36px 0px 12px 0px;
+    padding: 0;
+    height: 43px;
+}
+
+@media screen and (max-width: 900px) {
+    .wishlist-container {
+        width: calc(100% - 48px);
+        margin: 12px 24px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    mat-cell.mat-cell.cdk-cell.cdk-column-img.mat-column-img.ng-star-inserted {
+        justify-content: center;
+    }
+    .wishlist-header {
+        flex-wrap: wrap;
+
+        div {
+            width: 100%;
+            margin: 24px 0;
+        }
+    }
+
+    .wishlist-title {
+        p {
+            width: 100%;
+        }
+
+        div {
+            margin: 12px 0;
+            width: 100% !important;
+        }
+    }
+
+    mat-cell.mat-cell.cdk-cell.cdk-column-description_price.mat-column-description_price.ng-star-inserted {
+        padding: 12px 12px;
+        min-width: calc(100% - 24px);
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .filters { 
+        flex-wrap: wrap;
+        app-title { 
+            margin: 12px 0;
+        }
+        app-input { 
+            width: 100%;
+        }
+    }
+}

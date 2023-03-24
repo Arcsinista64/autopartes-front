@@ -1,0 +1,11 @@
+<ng-template #modalContainer>
+    <div class="modal-container">
+        <div *ngIf="header" class="header" mat-dialog-title>
+            <h2 class="modal-title">{{title}}</h2>
+            <mat-icon *ngIf="hasClose" aria-hidden="false" aria-label="Example home icon" (click)="hideModal()">close</mat-icon>
+        </div>
+        <div class="content" mat-dialog-content>
+            <ng-content></ng-content>
+        </div>
+    </div>
+</ng-template>

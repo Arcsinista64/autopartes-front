@@ -1,0 +1,13 @@
+<div style="background-color: transparent;">
+    <div class="alert-container" [style.border-color]="borderColor" [style.color]="color"
+        [style.background]="background">
+        <div class="content">
+            <div class="info">
+                <img [src]="icon" alt="">
+                <p [style.color]="color">{{ data.message }}</p>
+            </div>
+            <img (click)="close()" id="pointer" [src]="cross" alt="">
+        </div>
+        <div class="progress" [style.background-color]="color"></div>
+    </div>
+</div>

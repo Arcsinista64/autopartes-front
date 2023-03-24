@@ -1,0 +1,19 @@
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div class="small-searcher">
+    <app-search-small title="Ofertas"></app-search-small>
+</div>
+<app-title title="Ofertas"></app-title>
+
+<div *ngIf="offers$ | async as offers" class="offered-products-content">
+    <div class="iterator-card" *ngFor="let offer of offers">
+        <app-product-card 
+        [idProduct]="offer.id" 
+        [img]="offer.multimedia[0]?.image || null" 
+        [name]="offer.name" 
+        [offer]="true"
+        [actualCost]="offer.price" 
+        [oldCost]="offer.oldPrice"
+        [onWishlist]="offer.wishlist">
+        </app-product-card>
+    </div>
+</div>

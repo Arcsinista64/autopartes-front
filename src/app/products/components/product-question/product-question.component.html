@@ -1,0 +1,16 @@
+<div class="question-container">
+  <button class="accordion" (click)="show = !show">{{ question }}
+    <span class="add-sign">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 7H1M7 1V7V1ZM7 7V13V7ZM7 7H13H7Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </button>
+  
+<div *ngIf="answer" id="foo" [ngClass]="{ show: show }" class="panel">
+  <p style="white-space: pre-line;">
+    {{ answer }}
+    </p>
+</div>
+</div>
+  

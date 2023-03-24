@@ -1,0 +1,130 @@
+<div class="small-searcher">
+    <app-search-small title="Confirmar"></app-search-small>
+</div>
+<ng-container *ngIf="!paymentLoader">
+    <app-title title="Confirmación de pedido"></app-title>
+    <div class="cart-card-container">
+        <div class="cart-list">
+            <app-dynamic-table [data]="products$" [displayedColumns]="displayedColumns">
+                <ng-container matColumnDef="img">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <img [src]="element.product.multimedia[0]?.image || ''">
+                    </mat-cell>
+                </ng-container>
+                
+                <ng-container matColumnDef="details">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <h3 class="description" (click)="openProduct(element.product?.id)">{{ element.product?.name || ''}}</h3>
+                        <p class="">Cantidad: {{element.quantity}}</p>
+                        <p class="">{{element.product?.price | currency}}</p>
+                    </mat-cell>
+                </ng-container>
+                
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                
+            </app-dynamic-table>
+        </div>
+    
+        <div class="checkout-payment-cards">
+            <div class="checkout-card">
+                <div class="checkout-card-header">
+                    <p>Totales</p>
+                </div>
+                <div class="checkout-card-body">
+                    <p>Subtotal:</p>
+                    <p>{{ checkoutSubtotal | currency }}</p>
+                    <p>Envío</p>
+                    <p>{{ checkoutShipment | currency }}</p>
+                    <p>Descuento</p>
+                    <p>{{ checkoutDiscount | currency}}</p>
+                    <p>Total</p>
+                    <p>{{ (checkoutSubtotal + checkoutShipment) | currency }}</p>
+                    <ng-container *ngIf="!showCoupon && couponsName.length === 0">
+                        <div class="coupon" (click)="showCoupon = true">
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M8.5 6V8.5V6ZM8.5 8.5V11V8.5ZM8.5 8.5H11H8.5ZM8.5 8.5H6H8.5ZM16 8.5C16 9.48492 15.806 10.4602 15.4291 11.3702C15.0522 12.2801 14.4997 13.1068 13.8033 13.8033C13.1068 14.4997 12.2801 15.0522 11.3702 15.4291C10.4602 15.806 9.48492 16 8.5 16C7.51508 16 6.53982 15.806 5.62987 15.4291C4.71993 15.0522 3.89314 14.4997 3.1967 13.8033C2.50026 13.1068 1.94782 12.2801 1.5709 11.3702C1.19399 10.4602 1 9.48492 1 8.5C1 6.51087 1.79018 4.60322 3.1967 3.1967C4.60322 1.79018 6.51087 1 8.5 1C10.4891 1 12.3967 1.79018 13.8033 3.1967C15.2098 4.60322 16 6.51087 16 8.5Z"
+                                    stroke="#DD3500" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <p>Agregar cupón</p>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="showCoupon && couponsName.length === 0">
+                        <div class="coupon-input">
+                            <input type="text" [(ngModel)]="couponId" placeholder="Código de descuento">
+                            <p (click)="getCoupon()">Aplicar</p>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="couponsName !== []">
+                        <div class="coupon-added" *ngFor="let coupon of couponsName">
+                            <p>Cupón aplicado</p>
+                            <p> {{ coupon }} </p>
+                        </div>
+                    </ng-container>
+                    <app-button 
+                        class="btn"
+                        (click)="confirmOrder()" 
+                        text="Confirmar pedido"
+                        style="margin: 3px 0; height: 30px; padding: 0; min-width: 150px;">
+                    </app-button>
+                </div>
+            </div>
+    
+            <div class="address-payment" *ngIf="checkout$ | async as checkout">
+                <div class="address-card">
+                    <div class="address-card-header">
+                        <p>Dirección de envío</p>
+                    </div>
+                    <div class="address-card-body">
+                        <p class="name" *ngFor="let address of checkout">
+                            {{address.default_address.name || ''}}
+                        </p>
+                        <p class="inf" *ngFor="let address of checkout">
+                            {{address.default_address.street}}{{'# ' + address.default_address.ext_number + ', '}} 
+                            col. {{address.default_address.neighborhood + ', '}}
+                            {{address.default_address.municipality.name + ', '}}
+                            {{address.default_address.state.name + ','}}
+                            {{address.default_address.postal_code}}
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <p>Método de pago</p>
+                        <!-- <mat-icon>edit</mat-icon> -->
+                    </div>
+                    <div class="payment-card-body">
+                        <div class="payment-card-row" *ngFor="let payment of checkout">
+                            <ng-container *ngIf="!oxxoPayment">
+                                <img *ngIf="payment.default_payment_method.card_type == 1" src="assets/icons/visa.svg" alt="">
+                                <p *ngIf="payment.default_payment_method.card_type == 1" class="name">Visa ****
+                                    {{payment.default_payment_method.last_four_digits}}</p>
+                                <img *ngIf="payment.default_payment_method.card_type == 0" class="mastercard"
+                                    src="assets/icons/mastercard.svg" alt="">
+                                <p *ngIf="payment.default_payment_method.card_type == 0" class="name">Mastercard ****
+                                    {{payment.default_payment_method.last_four_digits}}</p>
+                                <img *ngIf="payment.default_payment_method.card_type == 2" src="assets/icons/amex-card.svg"
+                                    alt="">
+                                <p *ngIf="payment.default_payment_method.card_type == 2" class="name">American Express ****
+                                    {{payment.default_payment_method.last_four_digits}}</p>
+                            </ng-container>
+                            <ng-container *ngIf="oxxoPayment">
+                                <img src="assets/checkout/oxxo.svg">
+                                <p>Pago en tiendas OXXO</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="paymentLoader">
+    <app-page-loader text="Estamos procesando tu pago, por favor espera..."></app-page-loader>
+</ng-container>
+  

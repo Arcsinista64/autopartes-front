@@ -1,0 +1,25 @@
+h1 { 
+    font-size: 22px;
+    color: #636363;
+    line-height: 25px;
+    font-weight: bold;
+    font-style: normal;
+    font-family: Arial;
+    margin: 0 10%;
+}
+
+h2 { 
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0;
+    color: #636363;
+}
+
+@media screen and (max-width: 900px) {
+    h1 { 
+        margin: 6px 24px;
+    }
+}

@@ -1,0 +1,29 @@
+.star {
+  margin: 0;
+  color: #ddd;
+  transition: all .3s;
+  display: inline-block;
+}
+
+.variables:hover {
+  cursor: pointer;
+  transform: scale(1.3);
+  transition: all .3s;
+  color: #FFEA7A;
+}
+
+.star .mat-icon{
+  width: 40px;
+}
+
+.star-gold { color: #FFEA7A; }  
+
+.star{
+  margin: 0px 0px;
+  color: #a9a5a5;
+  display: inline-block;
+  cursor: pointer;
+  transition: all .3s;
+  transform: scale(1);
+}
+

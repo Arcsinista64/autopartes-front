@@ -1,0 +1,53 @@
+<div class="small-searcher">
+  <app-search-small title="Información"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<app-title title="Información de cuenta"></app-title>
+<div class="main-container">
+  <div class="form-section">
+    <div class="guide">
+      <h2>Información general de cuenta</h2>
+    </div>
+    <form>
+      <app-input [formCtr]="name" label="Nombre completo" placeholder=""></app-input>
+      <span>
+        <app-input [formCtr]="email" label="Correo electrónico" placeholder=""></app-input>
+        <app-input [formCtr]="phone" label="Celular" placeholder=""></app-input>
+      </span>
+      <span>
+        <div></div>
+        <app-button class="save" text="Guardar cambios" (click)="updateBuyer()"></app-button>
+      </span>
+    </form>
+  </div>
+  <div class="separator"></div>
+  <div class="form-section">
+    <div class="guide">
+      <h2>Cambio de contraseña</h2>
+    </div>
+    <form [formGroup]="passwordForm">
+      <span>
+        <label for="password">Contraseña actual
+          <input type="password" formControlName="password" placeholder="Contraseña"
+            [ngClass]="{'error-input': password?.invalid && (password?.dirty || password?.touched)}" />
+        </label>
+        <label for="password">Nueva contraseña
+          <input type="password" formControlName="new_password" placeholder="Contraseña"
+            [ngClass]="{'error-input': newPassword?.invalid && (newPassword?.dirty || newPassword?.touched)}" />
+          <div class="error-container">
+            <span class="error-msg" *ngIf="newPassword.errors?.minlength && (newPassword?.dirty || newPassword?.touched)">La
+              contraseña debe ser al menos 6 caracteres</span>
+            <span class="error-msg"
+              *ngIf="newPassword.errors?.passwordStrength  && (newPassword?.dirty || newPassword?.touched)">{{newPassword.errors?.passwordStrength}}</span>
+          </div>
+        </label>
+        <!-- <app-input [formCtr]="password" label="Contraseña actual" placeholder="Contraseña"></app-input>
+        <app-input [formCtr]="newPassword" label="Nueva contraseña" placeholder="Contraseña"></app-input> -->
+      </span>
+      <span>
+        <div></div>
+        <app-button class="save" text="Cambiar contraseña" (click)="updateBuyer()"></app-button>
+      </span>
+    </form>
+  </div>
+</div>

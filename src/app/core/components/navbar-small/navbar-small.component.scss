@@ -1,0 +1,48 @@
+.container {
+    z-index: 5;
+    position: fixed;
+    mat-icon { 
+        right: 0;
+        cursor: pointer;
+        position: absolute;
+        padding: 12px 24px;
+    }
+    .back {
+        display: grid;
+        justify-content: center;
+        background-color: #ffffff;
+        grid-template-rows: repeat(auto-fill, 24px);  
+        padding: 48px 0;
+        a { 
+            margin: auto; 
+            color: rgb(85, 85, 85);
+            font-size: 14px;
+            text-decoration: none;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        // .top {
+        //     display: flex;
+        //     margin: 10px 0 0 0;
+        //     a { 
+        //         margin: 0; 
+        //         img {
+        //             width: 200px;
+        //             height: auto;
+        //         }
+        //     }
+        //     svg {
+        //         top: 10px;
+        //         left: 10px;
+        //         margin: auto 0;
+        //         position: fixed;
+        //         &:hover { cursor: pointer; }
+        //     }
+        // }
+        // #quiz {
+        //     color: #50979F;
+        //     text-decoration: underline;
+        // }
+    }
+}

@@ -1,0 +1,13 @@
+<h2>{{title}}</h2>
+<owl-carousel-o [options]="customOptions" >
+    <ng-template carouselSlide *ngFor="let product of data">
+        <app-product-card 
+            [idProduct]="product.id" 
+            [actualCost]="product.price" 
+            [showWishlist]="false"
+            [name]="product.name" 
+            [img]="product.multimedia[0]?.image || null">
+        </app-product-card>
+    </ng-template>
+</owl-carousel-o>
+

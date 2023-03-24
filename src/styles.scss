@@ -1,0 +1,112 @@
+@import '_variable.scss';
+/* You can add global styles to this file, and also import other style files */
+html { height: 100%; }
+body { 
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial !important;
+
+    .main-content {
+        min-height: 100%;
+    }
+}
+.error { border-color: $errors-color; }
+.error-text { color: $errors-color !important;}
+.error-input { border-color: $errors-color; }
+.error-msg { 
+    font-size: 10px;
+    color: $errors-color; 
+    font-style: normal;
+    font-weight: normal;
+}
+
+.title {
+    display: flex;
+    font-weight: bold;
+    margin-top: 40px;
+    font-style: normal;
+    color: $font-color;
+    align-items: center;
+    justify-content: center;
+    font-size: $title-text-size;
+  }
+  
+input, textarea {
+    font-family: 'Arial', 'DM Sans', sans-serif;
+    width: 100%;
+    outline: none;
+    display: flex;
+    font-size: 15px;
+    color: #606060;
+    font-family: Arial;
+    border-radius: 4px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 1px solid $input-buttons-color-border;
+    &::placeholder { 
+        font-family: 'Arial', 'DM Sans', sans-serif; 
+        color: #8D8D8D !important;
+    }
+
+    &:disabled {
+        background-color: #ECECEC;
+    }
+}
+
+h1 {
+    font-size: 22px;
+    line-height: 31px;
+    font-weight: bold;
+    font-style: normal;
+    font-family: Arial;
+}
+
+h2 {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: bold;
+    font-style: normal;
+    font-family: Arial;
+}
+
+/**
+* Label for forms components
+*/
+.label {
+    margin: 0;
+    color: #8D8D8D;
+    font-style: normal;
+    line-height: 18px;
+    font-weight: normal;
+    font-family: Arial;
+    font-size: $label-font-size;
+}
+
+
+/*Added by Antonio*/
+p { 
+    margin: 0;
+    font-size: 14px;
+}
+button { 
+    font-family: Arial; 
+}
+.mat-form-field {
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    border: 1px solid #E5E5E5;
+    font-size: $forms-font-size;
+    height: $forms-component-height;
+}
+.mat-form-field-infix {
+    display: flex !important;
+    justify-content: space-between;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

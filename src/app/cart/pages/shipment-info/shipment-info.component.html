@@ -1,0 +1,324 @@
+<div class="small-searcher">
+    <app-search-small title="Confirmar"></app-search-small>
+</div>
+<app-breadcrumb [socialMedia]="false" [array]="crumbData"></app-breadcrumb>
+
+<app-title title="Confirmación de pedido"></app-title>
+
+    <div #scroll class="information-page-container">
+        <div class="information-section">
+    
+            <form [formGroup]="addressForm" class="grid-container-section">
+                <div class="row0">
+                    <p class="shipment-info_label">Información de envío</p>
+                </div>
+                <div class="row1">
+                    <app-input [material]="true" [formCtr]="name" label="Nombre completo" placeholder="Nombre completo">
+                        <span class="error-msg" *ngIf="name?.errors?.required && (name?.dirty || name?.touched)">Escriba el
+                            nombre
+                            completo</span>
+                    </app-input>
+                </div>
+    
+                <div class="row1-5">
+                    <app-input [material]="true" [formCtr]="phone_number" label="Número de teléfono" placeholder="Número de teléfono">
+                        <span class="error-msg"
+                        *ngIf="phone_number?.errors?.required && (phone_number?.dirty || phone_number?.touched)">Escriba el
+                        teléfono</span>
+                        <span class="error-msg" *ngIf="phone_number?.errors?.minlength">El teléfono debe de contener 10 dígitos</span>   
+                        <span class="error-msg" *ngIf="phone_number?.errors?.maxlength">El teléfono debe de contener 10 dígitos</span>     
+                    </app-input>
+                </div>
+    
+                <div class="row2">
+                    <app-input [material]="true" [formCtr]="address" label="Dirección" placeholder="Dirección">
+                        <span class="error-msg"
+                        *ngIf="address?.errors?.required && (address?.dirty || address?.touched)">Escriba la
+                        dirección</span>
+                    </app-input>
+    
+                </div>
+    
+                <div class="row3">
+                    <label class="ext">
+                        <app-input [material]="true" [formCtr]="ext" label="Número ext" placeholder="#">
+                            <span class="error-msg" *ngIf="ext?.errors?.required && (ext?.dirty || ext?.touched)">Escriba el
+                                número</span>
+                            <span class="error-msg" *ngIf="ext?.errors?.pattern">Escriba sólo números</span>    
+                        </app-input>
+                    </label>
+    
+                    <label class="int">
+                        <app-input [material]="true" [formCtr]="int" label="Número int" placeholder="#">
+                            <span class="error-msg" *ngIf="int?.errors?.pattern">Escriba sólo números</span>
+                        </app-input>
+                    </label>
+    
+                    <label class="colonia">
+                        <app-input [material]="true" [formCtr]="neighborhood" label="Colonia" placeholder="Colonia">
+                            <span class="error-msg"
+                            *ngIf="neighborhood?.errors?.required && (neighborhood?.dirty || neighborhood?.touched)">Escriba
+                            la
+                            colonia</span>
+                        </app-input>
+                    </label>
+                </div>
+    
+                <div class="row4">
+                    <div>
+                        <label class="label">País</label>
+                        <mat-form-field appearance="standard" *ngIf="countries$ | async as countries">
+                            <mat-select placeholder="País" formControlName="country"
+                                (selectionChange)="getStates($event.value)">
+                                <mat-option *ngFor="let item of countries" [value]="item.id">
+                                    {{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+    
+                    <div>
+                        <label class="label">Estado</label>
+                        <mat-form-field appearance="standard" *ngIf="states$ | async as state">
+                            <mat-select placeholder="Estado" formControlName="state"
+                                (selectionChange)="getMunicipalities($event.value)">
+                                <mat-option *ngFor="let item of state" [value]="item.id">
+                                    {{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+    
+                    </div>
+    
+                    <div>
+                        <label class="label">Municipio</label>
+                        <mat-form-field appearance="standard" *ngIf="municipalities$ | async as municipality">
+                            <mat-select placeholder="Municipio" formControlName="municipality">
+                                <mat-option *ngFor="let item of municipality" [value]="item.id">
+                                    {{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+                <label class="row5">
+                    <div>
+                        <app-input [material]="true" [formCtr]="postal_code" label="Código postal" placeholder="Código postal">
+                            <span class="error-msg"
+                                *ngIf="postal_code?.errors?.required && (postal_code?.dirty || postal_code?.touched)">
+                                Escriba el código postal
+                            </span>
+                            <span class="error-msg" *ngIf="postal_code?.errors?.maxLength">Máximo 6 números</span>
+                            <span class="error-msg" *ngIf="postal_code?.errors?.pattern">Escriba sólo números</span>
+                        </app-input>
+                    </div>
+                </label>
+    
+                <label class="row6">
+                    <app-input [formCtr]="references" label="Referencias" placeholder="Referencias"></app-input>
+                    <span class="error-msg" *ngIf="references?.errors?.required && (references?.dirty || references?.touched)">
+                        Escriba alguna referencia
+                    </span>
+                </label>
+    
+            </form>
+    
+            <!-- SHARED COMPONENT -->
+            <div class="payment-info">
+                <div class="row0">
+                    <p class="shipment-info_label">Método de pago</p>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <div class="option-title">
+                            <label class="radio">
+                                <input name="radio" type="checkbox" [(ngModel)]="!oxxoShow">
+                                <span [ngClass]="{'selected show': !oxxoShow}">
+                                    <p>Tarjeta de crédito ó débito</p>
+                                </span>
+                            </label>
+                            <div class="cards">
+                                <img src="assets/checkout/visa.svg">
+                                <img src="assets/checkout/mastercard.svg">
+                                <img id="american" src="assets/checkout/american.svg">
+                            </div>
+                        </div>
+                        <div class="option-body" [hidden]="oxxoShow">
+                            <app-payment-stripe #stripeInfo [address]="paymentAddress" (tokenBuyer)="stripeToken = $event" (getToken)="stripeToken"></app-payment-stripe>
+                        </div>
+                    </div>
+                    <div class="option" *ngIf="checkoutTotal <= 10000">
+                        <div class="option-title">
+                            <label class="radio">
+                                <input name="radio" type="checkbox" [(ngModel)]="oxxoShow">
+                                <span [ngClass]="{'selected show': oxxoShow}">
+                                    <p>Pago en tiendas OXXO</p>
+                                </span>
+                            </label>
+                            <img src="assets/checkout/oxxo.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="checkboxes" *ngIf="!oxxoShow">
+                <div class="checkboxes-title">
+                    <h2>Dirección de tarjeta de crédito ó débito</h2>
+                    <p>Selecciona la dirección que coincida con tu tarjeta o forma de pago</p>
+                </div>
+                <mat-radio-group  [(ngModel)]="radioButton" aria-label="Select an option">
+                    <mat-radio-button value="0">La misma dirección de envío</mat-radio-button>
+                    <mat-radio-button style="border-top: none;" (click)="radioChange('facturation')" value="1">Usar una dirección distinta</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div id="facturation">
+                <form *ngIf="radioButton === '1' && !oxxoShow" 
+                    [formGroup]="facturationAddressForm" 
+                    class="grid-container-section facturation-address-group">
+                    <div class="row0">
+                        <p class="shipment-info_label">Direccion de facturación</p>
+                    </div>
+                    <div class="row1">
+                        <app-input [formCtr]="facturation_name" label="Nombre completo" placeholder="Nombre completo">
+                        </app-input>
+                        <span class="error-msg"
+                            *ngIf="facturation_name?.errors?.required && (facturation_name?.dirty || facturation_name?.touched)">Escriba
+                            el nombre completo</span>
+                    </div>
+
+                    <div class="row1-5">
+                        <app-input [formCtr]="facturation_phone_number" label="Número de teléfono" placeholder="Número de teléfono">
+                            <span class="error-msg"
+                            *ngIf="facturation_phone_number?.errors?.required && (facturation_phone_number?.dirty || facturation_phone_number?.touched)">Escriba el
+                            teléfono</span>
+                            <span class="error-msg" *ngIf="facturation_phone_number?.errors?.minlength">El teléfono debe de contener 10 dígitos</span>   
+                            <span class="error-msg" *ngIf="facturation_phone_number?.errors?.maxlength">El teléfono debe de contener 10 dígitos</span>     
+    
+                        </app-input>
+                    </div>
+    
+                    <div class="row2">
+                        <app-input [formCtr]="facturation_address" label="Dirección" placeholder="Dirección"></app-input>
+                        <span class="error-msg"
+                            *ngIf="facturation_address?.errors?.required && (facturation_address?.dirty || facturation_address?.touched)">Escriba
+                            la
+                            dirección</span>
+                    </div>
+    
+                    <div class="row3">
+                        <label class="ext">
+                            <app-input [formCtr]="facturation_ext" label="Número ext" placeholder="#"></app-input>
+                            <span class="error-msg"
+                                *ngIf="facturation_ext?.errors?.required && (facturation_ext?.dirty || facturation_ext?.touched)">Escriba
+                                el
+                                número</span>
+                            <span class="error-msg" *ngIf="facturation_ext?.errors?.pattern">Escriba sólo números</span>
+                        </label>
+    
+                        <label class="int">
+                            <app-input [formCtr]="facturation_int" label="Número int" placeholder="#"></app-input>
+                        </label>
+    
+                        <label class="colonia">
+                            <app-input [formCtr]="facturation_neighborhood" label="Colonia" placeholder="Colonia">
+                            </app-input>
+                            <span class="error-msg"
+                                *ngIf="facturation_neighborhood?.errors?.required && (facturation_neighborhood?.dirty || facturation_neighborhood?.touched)">Escriba
+                                la colonia</span>
+                        </label>
+                    </div>
+    
+                    <div class="row4">
+                        <div>
+                            <p class="select-label">País</p>
+                            <mat-form-field appearance="standard" *ngIf="countriesFiscal$ | async as countriesFiscal">
+                                <mat-select placeholder="País" formControlName="facturation_country"
+                                    (selectionChange)="getStatesFiscal($event.value)">
+                                    <mat-option *ngFor="let item of countriesFiscal" [value]="item.id">
+                                        {{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span class="error-msg"
+                                *ngIf="facturation_country?.invalid && (facturation_country?.dirty || facturation_country?.touched)">Elija
+                                el
+                                país</span>
+                        </div>
+    
+                        <div>
+                            <p class="select-label">Estado</p>
+                            <mat-form-field appearance="standard" *ngIf="statesFiscal$ | async as stateFiscal">
+                                <mat-select placeholder="Estado" formControlName="facturation_state"
+                                    (selectionChange)="getMunicipalitiesFiscal($event.value)">
+                                    <mat-option *ngFor="let item of stateFiscal" [value]="item.id">
+                                        {{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <span class="error-msg"
+                                *ngIf="facturation_state?.invalid && (facturation_state?.dirty || facturation_state?.touched)">Elija
+                                el estado
+                            </span>
+                        </div>
+    
+                        <div>
+                            <p class="select-label">Municipio</p>
+                            <mat-form-field appearance="standard" *ngIf="municipalitiesFiscal$ | async as municipalitiesFiscal">
+                                <mat-select placeholder="Municipio" formControlName="facturation_municipality">
+                                    <mat-option *ngFor="let item of municipalitiesFiscal" [value]="item.id">
+                                        {{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <span class="error-msg"
+                                *ngIf="facturation_municipality?.invalid && (facturation_municipality?.dirty || facturation_municipality?.touched)">Elija
+                                la ciudad
+                            </span>
+                        </div>
+                    </div>
+                    <label class="row5">
+                        <div>
+                            <app-input [formCtr]="facturation_postal_code" label="Código postal" placeholder="Código postal"></app-input>
+                            <span class="error-msg" *ngIf="postal_code?.errors?.required && (postal_code?.dirty || postal_code?.touched)">Escriba el código postal</span>
+                            <span class="error-msg" *ngIf="postal_code?.errors?.maxLength">Máximo 6 números</span>
+                            <span class="error-msg" *ngIf="postal_code?.errors?.pattern">Escriba sólo números</span>
+                        </div>
+                    </label>
+                    <label class="row6">
+                        <app-input [formCtr]="facturation_references" label="Referencias" placeholder="Referencias"></app-input>
+                        <span class="error-msg" *ngIf="facturation_references?.errors?.required && (facturation_references?.dirty || facturation_references?.touched)">
+                            Escriba alguna referencia
+                        </span>
+                    </label>    
+                </form>
+            </div>
+        </div>
+        
+        <div class="total-section">
+            <div class="checkout-card-header">
+                <p>Totales</p>
+            </div>
+            <div class="checkout-card-body">
+                <p>Subtotal:</p>
+                <p>${{checkoutSubtotal}}</p>
+                <p>Envío</p>
+                <p>${{checkoutShipmentPrice}}</p>
+                <p>Descuento</p>
+                <p>${{checkoutDiscount}}</p> <!--TODO: checkout discount -->
+                <p>Total</p>
+                <p>${{checkoutSubtotal + checkoutShipmentPrice}}</p>
+                <app-button 
+                    loadingText="Procesando"
+                    class="btn"
+                    text="Continuar"
+                    (click)="nextStep()" 
+                    [loading]="loading"
+                    [disabled]="loading"
+                    style="margin: 3px 0; height: 30px; padding: 0; min-width: 150px;">
+                </app-button>
+            </div>
+        </div>
+    </div>

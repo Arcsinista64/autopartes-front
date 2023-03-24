@@ -1,0 +1,28 @@
+<app-navbar-small [state]="closeNavbar" (closed)="closeNavbar=$event"></app-navbar-small>
+<app-filters [state]="closeFilters" (closed)="closeFilters=$event"></app-filters>
+<div class="searcher-content">
+    <div class="searcher-title">
+        <div class="left">
+            <img (click)="openRoutes()" src="assets/burger-icon.svg" alt="">
+            <h1>{{title}}</h1>
+        </div>
+        <div class="right">
+            <mat-icon class="profile-icon" [matMenuTriggerFor]="menu">
+                <img *ngIf="!showDropDown" src="assets/profile.svg" alt="">
+                <img class="logged" *ngIf="showDropDown" src="assets/profile.svg" alt="">
+            </mat-icon>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/account']">Mi cuenta</button>
+                <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+            </mat-menu>
+            <mat-icon [matBadge]="cart" matBadgeColor="warn" [matBadgeHidden]="cart === 0">
+                <img [routerLink]="['/checkout/cart/']" src="assets/cart.svg" alt="">
+            </mat-icon>
+        </div>
+    </div>
+    <div class="searcher-input" [formGroup]="filterForm">
+        <app-input (keydown.enter)="applyFilters()" icon="search" placeholder="Buscar productos" [formCtr]="name">
+        </app-input>
+        <app-button text="Buscar" (click)="applyFilters()"></app-button>
+    </div>
+</div>

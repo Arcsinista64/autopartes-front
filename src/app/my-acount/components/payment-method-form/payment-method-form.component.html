@@ -1,0 +1,121 @@
+<form [formGroup]="cardForm" class="grid-container-modal">
+    <!-- <div class="row1">
+        <label class="name">
+            <app-input [formCtr]="name" label="Nombre en la tarjeta" placeholder="Nombre en la tarjeta">
+                <span class="error-msg" *ngIf="name?.errors?.required && (name?.dirty || name?.touched)">
+                    Escriba el nombre completo
+                </span>
+            </app-input>
+        </label>
+    </div>
+    <div class="row2">
+        <label class="number">
+            <app-input [formCtr]="number" label="Número en la tarjeta" placeholder="Número en la tarjeta">
+                <span class="error-msg"
+                    *ngIf="number?.errors?.required && (number?.dirty || number?.touched)">Escriba
+                    el número</span>
+                <span class="error-msg" *ngIf="number?.errors?.maxLength">Máximo 16 dígitos</span>
+                <span class="error-msg" *ngIf="number?.errors?.pattern">Solo numeros</span>
+            </app-input>
+        </label>
+    </div>
+    <div class="row3">
+        <label class="expiration_date">
+            <app-input [formCtr]="expiration_date" label="Fecha exp." placeholder="MM/YY">
+                <span class="error-msg"
+                    *ngIf="expiration_date?.errors?.required && (expiration_date?.dirty || expiration_date?.touched)">Escriba
+                    la fecha</span>
+                <span class="error-msg" *ngIf="expiration_date?.errors?.pattern">Formato ejemplo: 10/28</span>
+            </app-input>
+        </label>
+        <label class="cvv">
+            <app-input [formCtr]="cvv" label="CVV" placeholder="#">
+                <span class="error-msg" *ngIf="cvv?.errors?.required && (cvv?.dirty || cvv?.touched)">Escriba el
+                    número</span>
+                <span class="error-msg" *ngIf="cvv?.errors?.pattern">Formato: 3 números</span>
+            </app-input>
+        </label>
+    </div> -->
+    <app-payment-stripe [address]="cardForm.value" (tokenBuyer)="setToken($event)"></app-payment-stripe>
+    <div class="row4">
+        <p class="facturation_label">Direccion de facturación</p>
+    </div>
+    <div class="row5">
+        <label class="facturation_address">
+            <app-input [material]="true" [formCtr]="facturation_address" label="Dirección" placeholder="Dirección">
+            </app-input>
+            <span class="error-msg"
+            *ngIf="facturation_address?.errors?.required && (facturation_address?.dirty || facturation_address?.touched)">Escriba
+            la dirección</span>
+        </label>
+    </div>
+    <div class="row6">
+        <label class="ext">
+            <app-input [material]="true" [formCtr]="ext" label="Número Ext." placeholder="Exterior">
+            </app-input>
+            <span class="error-msg" *ngIf="ext?.errors?.required && (ext?.dirty || ext?.touched)">Escriba el
+                número</span>
+            <span class="error-msg" *ngIf="ext?.errors?.pattern">Formato: Sólo números</span>
+        </label>
+        <label class="int">
+            <app-input [material]="true" [formCtr]="int" label="Número Int." placeholder="Interior"></app-input>
+        </label>
+        <label class="colonia">
+            <app-input [material]="true" [formCtr]="neighborhood" label="Colonia" placeholder="Colonia">
+            </app-input>
+            <span class="error-msg"
+                    *ngIf="neighborhood?.errors?.required && (neighborhood?.dirty || neighborhood?.touched)">
+                    Escriba la colonia
+            </span>
+        </label>
+    </div>
+    <div class="row7">
+        <div class="country">
+            <app-select [showLabel]="true" label="País" selectKey="id" displayKey="name" placeholder="País" [data]="countries$ | async"
+                [formGrp]="cardForm" formCtr="country">
+                <span class="error-msg" *ngIf="country?.invalid && (country?.dirty || country?.touched)">
+                    Elija el país
+                </span>
+            </app-select>
+        </div>
+        <div class="state">
+            <app-select label="Estado" selectKey="id" displayKey="name" placeholder="Estado"
+                [data]="states$ | async" [formGrp]="cardForm" formCtr="state">
+                <span class="error-msg" *ngIf="state?.invalid && (state?.dirty || state?.touched)">Elija el
+                    estado</span>
+            </app-select>
+        </div>
+        <div class="municipality">
+            <app-select label="Municipio" selectKey="id" displayKey="name" placeholder="Municipios"
+                [data]="municipalities$ | async" [formGrp]="cardForm" formCtr="municipality">
+                <span class="error-msg"
+                    *ngIf="municipality?.invalid && (municipality?.dirty || municipality?.touched)">
+                    Elija la ciudad
+                </span>
+            </app-select>
+        </div>
+    </div>
+    <label class="row8">
+        <div class="cp">
+            <app-input [material]="true" [formCtr]="cp" label="Código postal" placeholder="Código postal">
+            </app-input>
+            <span class="error-msg" *ngIf="cp?.errors?.required && (cp?.dirty || cp?.touched)">Escriba el
+                código postal</span>
+            <span class="error-msg" *ngIf="cp?.errors?.maxLength">Máximo 6 números</span>
+            <span class="error-msg" *ngIf="cp?.errors?.pattern">Escriba sólo números</span>
+        </div>
+    </label>
+    <mat-list class="row9">
+        <div class="default">
+            <mat-list-item>
+                <mat-checkbox style="padding: 0;" style="color: gray;" [(ngModel)]="default"
+                    [ngModelOptions]="{standalone: true}">Hacer
+                    predeterminada
+                </mat-checkbox>
+            </mat-list-item>
+        </div>
+    </mat-list>
+    <div class="modal-buttons">
+        <app-button class="btn" (click)="sendCardForm()" text="Agregar tarjeta"></app-button>
+    </div>
+</form>

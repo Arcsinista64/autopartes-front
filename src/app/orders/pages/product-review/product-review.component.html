@@ -1,0 +1,63 @@
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div class="" *ngIf="order$ | async as order">
+    <div class="product-review-top">
+        <div class="top-title">
+            <p>Detalle de pedido</p>
+        </div>
+        <div class="top-row">
+            <p>Pedido el {{order.created_at | date: "d 'de' MMMM 'de' y"}}</p>
+            <p>Pedido número <span>{{ order.public_id }}</span></p>
+        </div>
+    </div>
+
+    <div class="product-review-card">
+        <div class="product-info">
+            <p>Producto</p>
+            <button mat-button *ngIf="!selectedProduct" [matMenuTriggerFor]="menu">Seleccionar producto a evaluar...</button>
+            <button mat-button *ngIf="selectedProduct" [matMenuTriggerFor]="menu">
+                <div class="ddl_product selected-image">
+                    <div class="img">
+                        <img *ngIf="!selectedProduct.product.multimedia[0].image" src="assets/icons/box.svg" alt="">
+                        <img *ngIf="selectedProduct.product.multimedia[0].image" [src]="selectedProduct.product.multimedia[0].image" alt="">
+                    </div>
+                    <div class="info">
+                        <p>{{selectedProduct.product.name}}</p>
+                        <p>{{selectedProduct.product.price | currency}}</p>
+                    </div>
+                </div>
+            </button>
+
+            <mat-menu #menu="matMenu">
+                <button style="background: white; border: none;" *ngFor="let item of order_products"  [value]="item">
+                    <div class="ddl_product" (click)="changeProduct(item)">
+                        <div class="img">
+                            <img *ngIf="!item.product.multimedia[0].image" src="assets/icons/box.svg" alt="">
+                            <img *ngIf="item.product.multimedia[0].image" [src]="item.product.multimedia[0].image" alt="">
+                        </div>
+                        <div class="info">
+                            <div>[{{item.quantity}}] {{item.product.name}}</div>
+                            <p>{{item.product.price | currency}}</p>
+                        </div>
+                    </div>
+                </button>
+            </mat-menu>
+        </div>
+        
+        <ng-container *ngIf="product$ | async as product">
+            <div class="seller-info" >
+                <p class="seller-name">Nombre del vendedor</p>
+                <p *ngFor="let item of seller; let i = index" >{{seller[i].product.seller.buyer.user.first_name}}</p> 
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="rate" [formGroup]="reviewForm">
+        <p>Evaluar el producto</p>
+        <app-stars-grades [rating]="0" [enabled]='true' (rate)="receiveRate($event)"></app-stars-grades>
+        <p>Escribe tu opinión del producto</p>
+        <textarea formControlName="opinion" placeholder='Comentarios'></textarea>
+        <div class="btn-rate">
+            <app-button class="btn" text="Enviar opinion" (click)="sendReview()"></app-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="main-container">
+  <h1 *ngIf="title">{{title}}</h1>
+  <h2 *ngIf="subtitle">{{subtitle}}</h2>
+  <p *ngIf="description">{{description}}</p>
+  <app-button *ngIf="action" [text]="action" (click)="onAction()"></app-button>
+</div>

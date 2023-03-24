@@ -1,0 +1,30 @@
+<app-breadcrumb [socialMedia]="false" [array]="crumbData"></app-breadcrumb>
+<ng-container *ngIf="sentEmail">
+  <div class="title recoverTitle">Recuperación de contraseña</div>
+    <div class="form">
+      <p>Ingresa el correo electrónico con el cual estás registrado para poder enviarte un link de verificación. </p>
+      <form [formGroup]="loginForm" (submit)="recovery()">
+        <div class="inputSpace">
+          <app-input [material]="true" [formCtr]="email" label="Correo electrónico" placeholder="Correo electrónico">
+          </app-input>
+
+          <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+            <span class="error" *ngIf="email?.errors?.required">Comprobar correo</span>
+            <span class="error" *ngIf="email?.errors?.email">Formato de correo inválido</span>
+          </div>
+        </div>
+
+        <app-button (click)="recovery()" text="Recuperar contraseña"></app-button>
+      </form>
+    </div>
+</ng-container>
+<ng-container *ngIf="!sentEmail">
+  <div class="title">Revisa tu correo</div>
+  <div class="formBody">
+    <div class="form">
+      <p>Un correo eléctronico se envió a la dirección que escribiste.</p>
+      <p>¿No recibiste ningún correo? <span id="link" (click)="sentEmail = true">Volver a envíar</span></p>
+    </div>
+  </div>
+</ng-container>
+

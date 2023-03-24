@@ -1,0 +1,90 @@
+:host ::ng-deep h1 { 
+    width: max-content;
+    margin: 0;
+}
+::ng-deep .label[_ngcontent-ojy-c218] { 
+    display: none;
+}
+.orders-list-title { 
+    margin: 24px auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 22px;
+    color: #636363;
+
+    p { margin: 0; }
+
+    .orders-list-filter-section { 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .filter-icon:hover { cursor: pointer; }
+
+        p { 
+            margin: 12px 36px;
+            padding-top: 12px;
+        }
+
+        app-input { width: 423px; }
+    }
+}
+
+/*Filter section*/
+.filter-section { 
+    display: flex;
+    justify-content: space-between;
+    p { margin: 0; }
+    .date { 
+        min-width: 250px;
+        width: 25%;
+    }
+    .product { 
+        min-width: 220px;
+        width: 23%;
+    }
+    .number { 
+        min-width: 220px;
+        width: 23%;
+    }
+    .status  {
+        min-width: 220px;
+        width: 23%;
+    }
+}
+.filter-label { 
+    font-family: Arial;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 22px;
+    color: #555555;
+    margin: 0;
+    p { margin-bottom: 6px; }
+}
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+    .filter-section { 
+        gap: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        padding: 0 24px;
+        .date, .product, .number, .status { 
+            min-width: 250px;
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .orders-list-title { 
+        display: none;
+    }
+}

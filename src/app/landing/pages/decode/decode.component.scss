@@ -1,0 +1,50 @@
+:host ::ng-deep { 
+    app-title { 
+        h1 { 
+            margin: 18px 0 !important;
+            text-align: center;
+        }
+    }
+    app-input { 
+        input { 
+            letter-spacing: 4px;
+            &::placeholder { 
+                letter-spacing: normal;
+            }
+        }
+    }
+}
+
+.container { 
+    width: 100%;
+    max-width: 580px;
+    margin: 100px auto;
+    border: 1px solid #E4E4E4;
+    padding: 18px 30px;
+    box-sizing: border-box;
+
+    app-tittle { 
+        margin: auto;
+    }
+
+    p { 
+        font-size: 17px;
+        line-height: 22px;
+        margin: 6px 0;  
+        color: #555555;
+    }
+    .input { 
+        margin-bottom: 38px;
+        p { 
+            width: fit-content !important;
+            color: #FD3D00;
+            font-size: 10px !important;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) { 
+    .container { 
+        width: calc(100% - 48px);
+    }
+}

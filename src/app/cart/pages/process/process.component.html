@@ -1,0 +1,15 @@
+<app-my-cart *ngIf="show.cart" (openCheckoutInfo)="openCheckoutInfo($event)"></app-my-cart>
+
+<app-shipment-info 
+    *ngIf="show.information" 
+    (openCheckoutConfirmation)="openCheckoutConfirmation($event)" 
+    [shipmentCompaniesData]="shipmentCompaniesData"
+    [shipmentCompaniesPrices]="shipmentCompaniesPrices">
+</app-shipment-info>
+
+<app-checkout-page 
+    *ngIf="show.confirmation" 
+    [shipmentCompaniesData]="shipmentCompaniesData"
+    [shipmentCompaniesPrices]="shipmentCompaniesPrices"
+    [oxxoPayment]="oxxo">
+</app-checkout-page>

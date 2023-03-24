@@ -1,0 +1,17 @@
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div class="small-searcher">
+    <app-search-small title="Destacados"></app-search-small>
+</div>
+<app-title title="Destacados"></app-title>
+
+<div *ngIf="featured$ | async as featured" class="featured-products-content">
+    <div class="iterator-card" *ngFor="let item of featured">
+        <app-product-card 
+            [idProduct]="item.id" 
+            [img]="item.multimedia[0]?.image || null" 
+            [name]="item.name"
+            [actualCost]="item.price"
+            [onWishlist]="item.wishlist">
+        </app-product-card>
+    </div>
+</div>

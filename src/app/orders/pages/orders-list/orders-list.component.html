@@ -1,0 +1,124 @@
+<div class="small-searcher">
+    <app-search-small title="Mis pedidos"></app-search-small>
+</div>
+<div class="orders-list-container">
+    <div class="orders-list-tabs">
+        <mat-tab-group (selectedTabChange)="changeContent($event)" [@.disabled]="true">
+            <mat-tab label="">
+                <ng-template mat-tab-label>
+                    Pedidos
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="en curso">
+                <ng-template mat-tab-label>
+                    Pedidos en curso
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="cancelados">
+                <ng-template mat-tab-label>
+                    Pedidos cancelados
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+    <div class="orders-list-body">
+        <app-order-filters #filter_panel [crumbData]="crumbData" (sendProducts)="setProducts($event)"
+            (sendFilters)="setOrders($event)" [selectedTab]="selectedTab">
+        </app-order-filters>
+        <mat-tab-group class="responsive-menu" (selectedTabChange)="changeContent($event)" [@.disabled]="true">
+            <mat-tab label="">
+                <ng-template mat-tab-label>
+                    Pedidos
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="en curso">
+                <ng-template mat-tab-label>
+                    Pedidos en curso
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="cancelados">
+                <ng-template mat-tab-label>
+                    Pedidos cancelados
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+        <div *ngIf="ordersLength === 0" class="emptyPlaceholder">
+            <img src="assets/icons/empty-sad-emoji.svg">
+            <p>Aun no tienes pedidos {{ordersTab}}</p>
+            <p>Comienza a ordenar para poder observar los detalles de tus órdenes</p>
+        </div>
+        <div>
+            <div *ngFor="let order of orders;  let i = index" class="orders-list-card">
+                <div class="order-top">
+                    <div class="order-top-date">
+                        <p>FECHA DE PEDIDO</p>
+                        <p>{{order.created_at | date}}</p>
+                    </div>
+                    <div class="order-top-recipient">
+                        <p>ENVIADO A</p>
+                        <p>{{order.shipped_to}}</p>
+                    </div>
+                    <div class="order-top-order-number">
+                        <p>NUMERO DE PEDIDO</p>
+                        <p (click)="redirectToDetail(order.id)">{{order.public_id}}</p>
+                    </div>
+                    <div [ngSwitch]="order.status" class="order-top-status">
+                        <p *ngSwitchCase="undefined" style="background: #eeeeee;">unreceived</p>
+                        <p *ngSwitchCase="status[0]" style="background: #F3E9CD; color: #D79E00;">Pendiente</p>
+                        <p *ngSwitchCase="status[1]" style="background: #F3E9CD; color: #D79E00;">Pago pendiente</p>
+                        <p *ngSwitchCase="status[2]" style="background: #CDE5F3; color: #0077bcd4;">En proceso</p>
+                        <p *ngSwitchCase="status[3]" style="background: #CDF3D5; color: #178930;">Aceptado</p>
+                        <p *ngSwitchCase="status[4]" style="background: #CDF3F3; color: #0E7E7E;">Enviado</p>
+                        <p *ngSwitchCase="status[5]" style="background: #CDF3D5; color: #178930;">Entregado</p>
+                        <p *ngSwitchCase="status[6]" style="background: #f3cdcd; color: #D60404;">Rechazado</p>
+                        <p *ngSwitchCase="status[7]" style="background: #D9D9D9; color: #606060;">Expirado</p>
+                        <p *ngSwitchCase="status[8]" style="background: #D9D9D9; color: #606060;">Cancelado</p>
+                        <p *ngSwitchCase="status[9]" style="background: #F3DFCD; color: #AC5D16;">Completado</p>
+                    </div>
+                    <div class="order-top-total">
+                        <p class="label">TOTAL:</p>
+                        <p class="total">{{order.total | currency}}</p>
+                    </div>
+                </div>
+                <div class="order-table">
+                    <div class="order-table-list">
+                        <div class="item" *ngFor="let item of order_products[i]; let j = index">
+                            <div class="img">
+                                <img [src]="item.product.multimedia[0].image" alt="">
+                            </div>
+                            <div class="description">
+                                <p> {{item.product.name}}</p>
+                                <p>Cantidad: {{item.quantity}}</p>
+                                <p>{{item.product.price | currency}}</p>
+                            </div>
+                            <div class="devolution" *ngIf="item.devolution.length > 0">
+                                <p style="font-weight: bold;">Estatus de devolución</p>
+                                <p>{{translateDevolution(item.devolution[0]?.status)}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-aside">
+                        <div class="button">
+                            <app-button (click)="redirectToSellerReview(order.id)" theme="secondary"
+                                text="Evaluar vendedor">
+                            </app-button>
+                        </div>
+                        <div class="button">
+                            <app-button (click)="redirectToProductReview(order.id)" theme="secondary"
+                                text="Escribir opinión del producto"></app-button>
+                        </div>
+                        <div class="links">
+                            <a (click)="redirectToDetail(order.id)">Detalles del pedido</a>
+                            <a *ngIf="!order?.payments[0]?.receipt_url"
+                                (click)="redirectToRecipe(order?.payments[0]?.voucher_url)">Ver o imprimir vale de
+                                OXXO</a>
+                            <a *ngIf="order?.payments[0]?.receipt_url"
+                                (click)="redirectToRecipe(order?.payments[0]?.receipt_url)">Ver recibo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

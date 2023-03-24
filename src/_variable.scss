@@ -1,0 +1,40 @@
+/**
+ * This file contains global scss variables for the whole project
+ * It can be import to any .scss file
+ *
+ * Example:
+ *   $primari-color: white;
+ */
+
+//----------GENERAL ASPECTS---------
+$default-page-padding: 50px 100px;
+
+//----------COLORS--------------
+$font-color: #656565;
+$errors-color: #FD3D00;
+$button-hover: #DD3500;
+$search-color: #E5E5E5;
+$secondary-color: #FD3D00;
+
+//----------FONTS---------------
+$errors-size-text: 14px;
+$title-text-size: 22px;
+
+//--------------FORMS------------------
+$label-font-size: 14px;
+$forms-font-size: 17px;
+$forms-component-height: 43px;
+$input-buttons-color-border: #E5E5E5;
+
+
+//--------------NAVBAR-----------------
+$navbar-search-height: 76px;
+$navbar-list-height: 58px; 
+$navbar-total-height: calc(#{$navbar-search-height} + #{$navbar-list-height});
+
+//----------CAROUSEL VARIABLES--------
+$unit-1: 4px;
+$carousel-width: 609px;
+$color-brand-1: black;
+$small-carousel-width: 100%;
+$min-height-carousel: calc(#{$unit-1} * 50);

@@ -1,0 +1,35 @@
+@import "_variable";
+
+.error {
+  color: $errors-color;
+  font-size: $errors-size-text;
+}
+.recoverTitle { 
+  padding: 0 10%;
+  margin-top: 0px !important;
+}
+.form {
+  max-width: 420px;
+  margin: 24px auto;
+  padding: 0 10%;
+  p { 
+    color: rgba(85, 85, 85, 1);
+    span { 
+      &:hover { 
+        cursor: pointer;
+        color: $secondary-color;
+        text-decoration: underline;
+      }
+    }
+  }
+  form { 
+    .inputSpace { 
+      margin: 32px 0;
+    }
+  }
+}
+
+app-button {
+  height: 43px;
+  display: block;
+}

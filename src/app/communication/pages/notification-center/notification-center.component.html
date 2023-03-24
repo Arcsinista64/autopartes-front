@@ -1,0 +1,35 @@
+<app-search-small title="Notificaciones"></app-search-small>
+<app-breadcrumb [notifications]="true" [socialMedia]="false" [array]="crumbData"></app-breadcrumb>
+<div class="communication-content">
+    <div class="side-menu">
+        <app-side-menu 
+            (selected)="setNoti($event)"
+            [newNotification]="newNotification"
+            [newOffer]="newOffer"
+            [newQuestion]="newQuestion"
+            [newAll]="newAll"
+        ></app-side-menu>
+    </div>
+    <div class="chat">
+        <ng-container *ngIf="notificationType === 'all'">
+            <ng-container *ngIf="allCommunications$ | async as allNotifications">
+                <app-all-notifications (notificationSelected)="addCrumb($event, 0)" [empty]="empty" [chatList]="allNotifications"></app-all-notifications>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="notificationType === 'offers'">
+            <ng-container *ngIf="offers$ | async as offers">
+                <app-offers (notificationSelected)="addCrumb($event, 1)" [empty]="empty" [chatList]="offers"></app-offers>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="notificationType === 'questions'">
+            <ng-container *ngIf="questions$ | async as questions">
+                <app-questions (notificationSelected)="addCrumb($event, 2)" [empty]="empty" [chatList]="questions"></app-questions>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="notificationType === 'notifications'">
+            <ng-container *ngIf="notifications$ | async as notifications">
+                <app-notifications (notificationSelected)="addCrumb($event, 3)" [empty]="empty" [chatList]="notifications"></app-notifications>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

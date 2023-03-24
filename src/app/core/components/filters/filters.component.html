@@ -1,0 +1,54 @@
+<!-- TODO: VERIFY IF THIS COMPONENT IS BEING USED -->
+<div class="container" [@show]="state">
+    <mat-icon (click)="changeState()">close</mat-icon>
+    <div class="filter-header">
+        <mat-icon style="visibility: hidden;">close</mat-icon>
+        <p>Filtrar</p>
+        <mat-icon style="font-family: 'Material Icons';" (click)="changeState()">close</mat-icon>
+    </div>
+    <div class="grid-container" [@widthGrow]="state">
+        <div class="filter-panel">
+            <mat-tab-group>
+                <mat-tab label="Productos">
+                    <div class="grid-form" [formGroup]="filterForm">
+                        <app-input class="search-form" label="NOMBRE" icon="search" [formCtr]="name" placeholder="Buscar"></app-input>
+                        <app-multiselect class="category-form" displayKey="name" label="CATEGORÍA" [data]="categories$ | async"
+                            placeholder="Buscar" [filter]="false" [formGrp]="filterForm" formCtr="category">
+                        </app-multiselect>
+                        <app-multiselect class="subcategory-form" displayKey="name" label="SUBCATEGORÍA" [data]="subcategories$ | async"
+                            placeholder="Buscar" [filter]="false" [formGrp]="filterForm" formCtr="subcategory">
+                        </app-multiselect>
+
+                        <label class="price_range">
+                            <p class="label">RANGO DE PRECIOS</p>
+                            <div class="custom-slider">
+                                <ngx-slider [(value)]="value" [(highValue)]="topValue" [options]="options"></ngx-slider>
+                            </div>
+                            <div class="price_range_inputs">
+                                <input type="text" placeholder="0" [(ngModel)]="value"
+                                    [ngModelOptions]="{standalone: true}">
+                                <input type="text" placeholder="1000" [(ngModel)]="topValue"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </label>
+
+                        <app-input [formCtr]="part_number" class="part-form" label="NÚMERO DE PARTE" placeholder="#"></app-input>
+                        <app-multiselect class="brand-form" label="MARCA" [data]="brands" placeholder="Buscar"
+                            [filter]="false" [formGrp]="filterForm" formCtr="brand">
+                        </app-multiselect>
+                        <!-- <ng-container  *ngIf="countries$ | async as countries"></ng-container> -->
+                        <app-select [formGrp]="filterForm" class="country-form" selectKey="name" displayKey="name" label="PAÍS DE ORIGEN" placeholder="Buscar" [data]="countries$ | async"
+                            formCtr="country"></app-select>
+                        <app-select [formGrp]="filterForm" class="condition-form" label="CONDICIÓN" placeholder="Buscar" [data]="conditions"
+                            formCtr="condition"></app-select>
+                        <div class="filter-button">
+                            <app-button class="btn" (click)="applyFilters()" text="Aplicar filtros"></app-button>
+                        </div>
+                    </div>
+                    </mat-tab>
+                <mat-tab label="Proveedores" disabled></mat-tab>
+            </mat-tab-group>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<form
+    ngxStripeCardGroup
+    [formGroup]="paymentForm">
+    <div class="row name">
+        <label>
+            <span class="label">Nombre</span> 
+            <input type="text" formControlName="name" placeholder="Nombre">
+            <p class="error-msg" *ngIf="name?.errors?.required && (name?.dirty || name?.touched)"> No se olvide de escribir su nombre</p>
+            <p class="error-msg" *ngIf="name?.errors?.minlength"> Escriba su nombre completo</p>
+            <p class="error-msg" *ngIf="name?.errors?.patter"> Su nombre no puede llevar acentos </p>
+        </label>
+    </div>
+    <div class="row card">
+        <label>
+            <span class="label">Número de tarjeta</span>
+            <div class="border">
+                <ngx-stripe-card-number (change)="onChangeCard($event)" [options]="cardOptions"></ngx-stripe-card-number>
+            </div>
+            <p class="error-msg" *ngIf="!cardStatus">{{error_message_card}}</p>
+        </label>
+    </div>
+    <div class="row expired">
+        <label>
+            <span class="label">Vencimiento</span>
+            <div class="border">
+                <ngx-stripe-card-expiry (change)="onChangeExp($event)" [options]="cardOptions"></ngx-stripe-card-expiry>
+            </div>
+            <p class="error-msg" *ngIf="!expiredStatus">{{error_message_expired}}</p>
+        </label>
+    </div>
+    <div class="row cvv">
+        <label>
+            <span class="label">CVV</span>
+            <div class="border">
+                <ngx-stripe-card-cvc (change)="onChangeCVV($event)"[options]="cardOptions"></ngx-stripe-card-cvc>
+            </div>
+            <p class="error-msg" *ngIf="!cvvStatus">{{error_message_cvv}}</p>
+        </label>
+    </div>
+</form>

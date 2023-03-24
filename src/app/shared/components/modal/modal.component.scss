@@ -1,0 +1,82 @@
+.table-options{
+    height: 50px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    div{
+        display: flex;
+        align-items: center;
+
+        mat-icon{
+            margin-left: 10px;
+        }
+    }
+
+}
+
+.dynamic-table {
+    height: calc(100vh - 256px);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+
+.cdk-row:hover {
+    .actions {
+        opacity: 1;
+        color: #7b7b7b;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+
+    :first-child {
+        margin-right: 10px;
+    }
+}
+
+/*Added by Antonio*/
+h2.modal-title { 
+    margin: 0 0 40px 0;
+}
+
+.header { 
+    display: flex;
+    mat-icon { 
+        margin-left: auto;
+    }
+    mat-icon:hover { 
+        cursor: pointer;
+    }
+}
+.modal-title { 
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 25px;
+    color: #636363;
+}
+
+::ng-deep mat-dialog-container#mat-dialog-0 { 
+    padding: 40px;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+    background-color: #FD3D00 !important;
+}
+
+@media screen and (max-width: 900px) { 
+    ::ng-deep mat-dialog-container#mat-dialog-0 { 
+        padding: 12px;
+    }
+}

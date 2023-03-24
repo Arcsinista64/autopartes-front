@@ -1,0 +1,88 @@
+.my-acount-container { 
+    width: 80%;
+    margin: auto;
+}
+
+h1 { 
+    font-size: 22px;
+    color: #636363;
+    line-height: 25px;
+    font-weight: bold;
+    font-style: normal;
+    font-family: Arial;
+    margin: 24px 0 0 24px;
+}
+
+.my-acount-cards { 
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    gap: 12px 1.3333%;
+    margin: 24px 0;
+    .my-acount-card { 
+        font-style: normal;
+        padding: 30px 23px;
+        background: #FFFFFF;
+        box-sizing: border-box;
+        font-family: Arial;
+        width: 100%;
+        border: 1px solid #E9E9E9;
+        
+        .content {
+            display: flex;
+            flex-direction: row;
+
+            .svg { 
+                width: 40px;
+                height: 40px;
+            }
+    
+            .text { 
+                padding: 0 0 0 14px;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 16px;
+                color: #636363;
+                flex: 1;
+            }
+        }
+
+        h4 { 
+            width: 100%;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 22px;
+            color: #636363;
+            margin-top: 0px;
+            margin-bottom: 12px;
+        }
+
+        
+    }
+
+    .my-acount-card:hover { 
+        box-shadow: 1px 1px 4px 0 #cbcbcb !important;
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .my-acount-cards { 
+        grid-template-columns: 49% 49%;
+        gap: 12px 2%;
+        margin: 18px 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    h1 { 
+        margin: 0 12px 12px 12px;
+    }
+    .my-acount-container { 
+        width: 100%;
+    }
+    .my-acount-cards { 
+        grid-template-columns: 100%;
+        margin: 18px 24px;
+        gap: 12px 0;
+    }
+}

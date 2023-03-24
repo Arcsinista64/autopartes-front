@@ -1,0 +1,54 @@
+:host ::ng-deep app-title { 
+    h1 { 
+        margin: 24px 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 31px;
+        color: #5B5B5B;
+    }
+}
+
+:host ::ng-deep .searcher-input { 
+    margin: 12px 0;
+}
+
+.new-detail-content { 
+    width: 70%;
+    margin: 36px 15%;
+
+    .img-container { 
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: center;
+
+        img { 
+            width: auto;
+            height: auto;
+            max-height: 50vh;
+            max-width: 50vw;
+        }
+    }
+
+    .title { 
+        margin: 22px 0;
+        display: flex;
+        flex-wrap: wrap;
+        h6 { 
+            margin: 0;
+            width: 100%;
+            font-size: 16px;
+            color: #9F9F9F;
+            line-height: 21px;
+            text-align: center;
+            font-family: Arial;
+            font-weight: normal;
+        }
+    }
+
+    p { 
+        white-space: pre-line;
+        color: #5B5B5B;
+    }
+}

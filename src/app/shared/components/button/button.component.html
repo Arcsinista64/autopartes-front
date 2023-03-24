@@ -1,0 +1,20 @@
+<button 
+    [ngClass]=
+        "{'primary': theme === 'primary',
+        'secondary': theme === 'secondary',
+        'tertiary': theme === 'tertiary',
+        'quaternary': theme === 'quaternary',
+        'quinternary': theme === 'quinternary'
+    }" [disabled]="disabled">
+    <ng-container *ngIf="!loading;else else_content">
+        <img *ngIf="icon" [src]="'assets/' + icon">
+        <p>{{text}}</p>
+    </ng-container>
+
+    <ng-template #else_content>
+        <span class="loader">
+            <mat-spinner [diameter]="20"></mat-spinner>
+            <p>{{loadingText}}</p>
+        </span>
+    </ng-template>
+</button>

@@ -1,0 +1,29 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="subscribe">
+            <h3>SUSCRÍBETE</h3>
+            <p>Registra tu correo para recibir descuentos y promociones.</p>
+
+            <div class="searcher-input email" [formGroup]="subscriptionForm">
+                <app-input placeholder="Correo electrónico" [formCtr]="email"></app-input>
+                <app-button text="Enviar" (click)="sendSubscription()"></app-button>
+            </div>
+            <span class="error-msg" *ngIf="email?.errors?.required && (email?.dirty || email?.touched)">¡Correo
+                electrónico requerido!</span>
+            <span class="error-msg" *ngIf="email?.errors?.email">¡Formato de correo electrónico inválido!</span>
+        </div>
+
+        <div class="about-us">
+            <h3>Acerca de</h3>
+            <div *ngFor="let item of about_us_list">
+                <a [routerLink]="item.url">{{item.text}}</a>
+            </div>
+        </div>
+        <div class="reports">
+            <h3>Informes</h3>
+            <div *ngFor="let item of reports">
+                <a [routerLink]="item.url">{{item.text}}</a>
+            </div>
+        </div>
+    </div>
+</footer>

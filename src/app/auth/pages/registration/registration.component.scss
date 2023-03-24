@@ -1,0 +1,147 @@
+@import '_variable.scss';
+:host .title { 
+  margin: 32px 0 !important;
+}
+.page {
+  width: 40%;
+  margin: 0 auto;
+  transition: 1s ease;
+  .contact-form {
+    gap: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:  "name name"
+                          "email phone"
+                          "pass rePass"
+                          "btn btn";
+
+    .name { grid-area: name; }
+    .phone { grid-area: phone; }
+    .email { grid-area: email; }
+    .password { 
+      grid-area: pass;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      .input { 
+        width: calc(100% - 32px);    
+      }
+      span { 
+        svg { 
+            padding-left: 6px;
+        }
+        &:hover { 
+          cursor: pointer;
+        }
+      } 
+    }
+    .rePass { grid-area: rePass; }
+    p {
+      margin: 10px 0;
+      font-size: 17px;
+      font-weight: 500;
+      color: #757575;
+    }
+    .btn {
+      margin-top: 15px;
+      grid-area: btn;
+      display: flex;
+      margin-bottom: 30px;
+      justify-content: flex-end;
+    }
+
+    .error-container {
+      display: grid;
+      padding: 6px 0;
+    }
+  }
+
+  .social-media {
+    width: 100%;
+    display: grid;
+    margin-bottom: 50px;
+    justify-content: center;
+    grid-template-rows: auto auto;
+    p {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .social-media-logos {
+      gap: 15px;
+      width: 100%;
+      margin: auto;
+      display: grid;
+      width: max-content;
+      justify-content: center;
+      grid-template-rows: auto;
+      grid-template-columns: auto auto auto;
+      img { width: 39px; height: auto; }
+    }
+  }
+  .links {
+    grid-area: links;
+    display: grid;
+    width: 100%;
+    a {
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $secondary-color;
+      text-decoration: underline;
+      &:hover { cursor: pointer; }
+    }
+  
+    p {
+      padding: 0;
+      margin: 5px;
+      display: flex;
+      font-style: normal;
+      font-weight: normal;
+      align-items: center;
+      line-height: 18.23px;
+      text-decoration: none;
+      justify-content: center;
+      color: $font-color;
+    }
+  }
+}
+
+
+.tootlip { 
+  background: rgb(255, 255, 255);
+  border: 1px solid #FD3D00;
+  color: #636363 !important;
+  font-family: Arial;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .page {
+    width: 60%;
+    .contact-form {
+      grid-template-areas:"name"
+                          "email"
+                          "phone" 
+                          "pass" 
+                          "rePass"
+                          "btn";
+      grid-template-columns: 1fr;
+    }
+  }
+}
+@media screen and (max-width: 600px) { 
+  .page {
+    width: 90%;
+    .contact-form {
+      grid-template-areas:"name"
+                          "email"
+                          "phone" 
+                          "pass" 
+                          "rePass"
+                          "btn";
+      grid-template-columns: 1fr;
+    }
+  }
+}

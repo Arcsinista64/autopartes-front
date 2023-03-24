@@ -1,0 +1,13 @@
+<div class="breadcrumb-container" > 
+    <div *ngIf="mobile && !notifications" class="crumbs">
+        <img (click)="goBack()" src="../assets/left-arrow.svg"/> 
+        <!-- <p (click)="goBack()">Volver</p> -->
+    </div>
+    <div *ngIf="!mobile || notifications" class="crumbs">
+        <p [routerLink]="''">Inicio</p>
+        <p *ngFor="let crumb of array" class="crumb" (click)="sendEvent(crumb.url)"><span style="text-decoration: none;">></span> {{crumb.txt}}</p>
+    </div>
+    <div *ngIf="socialMedia" class="social-media">
+        <a *ngFor="let icon of icons" (click)="openWindow(icon.url, icon.name)"><img [src]="icon.src" [alt]="icon.name"></a>
+    </div>
+</div>

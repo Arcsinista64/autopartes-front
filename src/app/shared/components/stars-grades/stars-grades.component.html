@@ -1,0 +1,6 @@
+<div fxLayout="row" fxLayoutAlign="start center" >
+    <div *ngFor="let star of stars; let i = index" class="star" [ngClass]="{'star-gold': star.active}">
+        <mat-icon *ngIf="!enabled" [ngClass]="{'star-gold': star.active}">star</mat-icon>
+        <mat-icon *ngIf="enabled" (mouseenter)="mouseHover(i+1)" (click)="changeValue(i+1)" [ngClass]="{'star-gold': star.active}" class="variables">star</mat-icon>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="small-searcher">
+    <app-search-small title="Cuenta"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<app-title title="Mi cuenta"></app-title>
+
+<div class="my-acount-container">
+    <div class="my-acount-cards">
+        <div *ngFor="let card of cards" class="my-acount-card" [routerLink]="card.url">
+            <h4>{{card.title}}</h4>
+            <div class="content">
+                <div class="svg">
+                    <img [src]="card.icon" alt="">
+                </div>
+                <span class="text">{{card.text}}</span>
+            </div>
+        </div>
+    </div>
+</div>

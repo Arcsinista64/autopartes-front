@@ -1,0 +1,107 @@
+.not-seen {
+    background-color: rgba(139, 139, 139, 0.07);
+}
+
+.messages-list { 
+    display: flex;
+    padding: 22px 0;
+    align-items: center;
+    border-collapse: collapse;
+    border: 1px solid #F5F5F5;
+
+    &:hover { 
+        cursor: pointer;
+        background-color: rgba(253, 60, 1, 0.07);
+    }    
+
+    .profile-pic { 
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        
+        span { 
+            // color: #FFFFFF;
+            width: 24px;
+            padding: 6px;
+            height: 24px;
+            margin: auto 0;
+            font-size: 16px;
+            max-width: 24px;
+            max-height: 24px;
+            line-height: 21px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: normal;
+        }
+
+        .zeroth {
+            color: #FFF;
+            background: #432AA7;
+        }
+
+        .first {
+            color: #FFF;
+            background: #A72A40;
+        }
+
+        .second {
+            color: #FFF;
+            background: #34A72A;
+        }
+
+        .third {
+            color: #FFF;
+            background: #A7752A;
+        }
+    }
+
+    .preview { 
+        width: 85%;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+
+        p { width: 100%; }
+
+        p:nth-child(1) { 
+            color:#242424;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 21px;
+            overflow: hidden;
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+        }
+        p:nth-child(2) { 
+            color:#828282;
+            font-size: 14px;
+            overflow: hidden;
+            line-height: 18px;
+            overflow: hidden;
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+        }
+        
+    }
+    .time { 
+        width: 22.5%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        color:#828282;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .profile-pic, .time { 
+        padding: 0 12px;
+    }
+}
+
+@media screen and (max-width: 900px) { 
+    // .messages-list { 
+    //     .profile-pic, .time { 
+    //         padding: 0 12px;
+    //     }
+    // }
+}

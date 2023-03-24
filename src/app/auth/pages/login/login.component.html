@@ -1,0 +1,26 @@
+<app-breadcrumb [socialMedia]="false" [array]="crumbData"></app-breadcrumb>
+<div class="page">
+    <div class="title">Iniciar sesión</div>
+    <form [formGroup]="loginForm" (submit)="login()">
+        <div class="email">
+            <app-input [material]="true" [formCtr]="email" label="Correo electrónico" placeholder="Correo electrónico">
+            </app-input>
+            <div *ngIf="email?.invalid && (email?.dirty)">
+                <span class="error-msg" *ngIf="email?.errors?.required">Correo electrónico necesario</span>
+                <span class="error-msg" *ngIf="email?.errors?.email">Formato de correo inválido</span>
+            </div>
+        </div>
+        <div class="password">
+            <app-input type="password" [material]="true" [formCtr]="password" label="Contraseña" placeholder="Contraseña">
+            </app-input>
+            <div *ngIf="password?.invalid && (password?.dirty)">
+                <span class="error-msg" *ngIf="password?.errors?.required">Contraseña necesaria</span>
+            </div> 
+        </div>
+        <app-button class="btn" (click)="login()" text="Iniciar sesión"></app-button>
+        <div class="links">
+            <a [routerLink]="['recovery/']">¿Olvidaste tu contraseña?</a>
+            <p>¿No tienes una cuenta?<a [routerLink]="['/auth/register']" routerLinkActive="router-link-active" >Regístrate</a></p>
+        </div>
+    </form>
+</div>

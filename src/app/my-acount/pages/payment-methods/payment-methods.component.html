@@ -1,0 +1,109 @@
+<div class="small-searcher">
+    <app-search-small title="Pagos"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div class="payment-methods-header">
+    <app-title title="Mis pagos"></app-title>
+    <h2 class="add-card" (click)="openAddCard()">Agregar tarjeta</h2>
+</div>
+
+<div class="payment-methods-container">
+    <div class="payment-methods-tabs">
+        <mat-tab-group [@.disabled]="true">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Billetera
+                </ng-template>
+                <div class="cards">
+                    <app-dynamic-table [data]="paymentMethods$ | async"
+                        [displayedColumns]="displayedColumns">
+                        <ng-container matColumnDef="termination">
+                            <mat-header-cell *matHeaderCellDef>Mis tarjetas</mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <div class="svg">
+                                    <img *ngIf="element.card_type === 1" src="assets/checkout/visa.png">
+                                    <img *ngIf="element.card_type === 2" src="assets/checkout/amex.png">
+                                    <img *ngIf="element.card_type === 0" src="assets/checkout/mastercard.png">
+                                    <p> **** {{element?.last_four_digits}}</p>
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="default">
+                            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <p *ngIf="element.default" class="default-card">Predeterminada</p>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="date">
+                            <mat-header-cell *matHeaderCellDef>Fecha de expiración</mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i = index">
+                                <div class="expiration-date">
+                                    <p>{{element.exp_month}}/{{element.exp_year}}</p>
+                                    <mat-icon *ngIf="activeRow[i]" aria-hidden="false" aria-label="Example home icon">
+                                        expand_less</mat-icon>
+                                    <mat-icon *ngIf="!activeRow[i]"
+                                        aria-hidden="false" aria-label="Example home icon">chevron_right</mat-icon>
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" matRipple
+                            class="element-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl" (click)="open(i)">
+                        </mat-row>
+                        <ng-template #tpl let-element>
+                            <div class="mat-row detail-row" [@detailExpand] style="overflow: hidden">
+                                <div class="card-owner">
+                                    <p>Nombre en la tarjeta</p>
+                                    <p>{{element.owner_name}}</p>
+                                </div>
+                                <div class="address">
+                                    <p class="bold">Dirección de facturación</p>
+                                    <p>{{element.street}}</p>
+                                    <p>{{element.neighborhood}}, {{element.municipality.name}}</p>
+                                    <p>{{element.state.short_code}}, {{element.country.name}}, C.P.
+                                        {{element.postal_code}}</p>
+                                    <div class="buttons">
+                                        <!-- <a style="padding-right: 12px; border-right: 1px solid #636363;"
+                                            (click)="edit(element)">Editar</a> -->
+                                        <a style="padding-left: 12px;"
+                                            (click)="deletePaymentMethod(element.id)">Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </app-dynamic-table>
+                    <div class="not-found">
+                        <app-not-found *ngIf="emptyTable" title=":("
+                            subtitle="No tienes métodos de pago registrados"
+                            description="¡Registra tus métodos de pago y agiliza tu proceso de compra! Todos tus métodos de pago son encriptados y manejados por entidades oficiales, nosotros no tenemos acceso a tus datos bancarios"
+                            action="Agregar un método de pago" (activated)="openAddCard()">
+                        </app-not-found>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Transacciones
+                </ng-template>
+                <div *ngIf="(transactions$ | async) as transactions" class="transactions">
+                    <p class="card-subtitle">Mis transacciones</p>
+                    <div *ngFor="let element of transactions" class="transaction-card">
+                        <p class="top-info">{{element.created_at | date:'fullDate'}}</p>
+                        <p class="top-info trans-amount">-{{element.amount | currency}}</p>
+                        <div class="svg">
+                            <img *ngIf="element?.payment_method?.card_type === 'Visa'" src="assets/checkout/visa.png" alt="">
+                            <img *ngIf="element?.payment_method?.card_type === 'Amex'" src="assets/checkout/amex.png" alt="">
+                            <img *ngIf="element?.payment_method?.card_type === 'Mastercard'" src="assets/checkout/mastercard.png" alt="">
+                            <img *ngIf="element?.voucher_url" src="assets/checkout/oxxo.png" alt="">
+                            <p *ngIf="!element?.voucher_url">**** {{element.payment_method?.last_four_digits}}</p>
+                        </div>
+                        <a [routerLink]="'/account/orders/' + element.order.id" >Número de pedido {{element.order.public_id}}</a>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+<app-modal title="Agregar tarjeta" #modal [dialogConfig]="{ width: '65%', height: '95%' }">
+    <app-payment-method-form (submitCard)="sendCardForm($event)"></app-payment-method-form>
+</app-modal>

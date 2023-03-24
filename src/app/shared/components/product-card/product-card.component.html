@@ -1,0 +1,31 @@
+<div [ngStyle]="{'max-height':offer ? '272px' : '242px'}" class="card">
+    <div class="heart">
+        <app-whishlist *ngIf="showWishlist" [active]="onWishlist" [idProduct]="idProduct" (data)="data.emit($event)"></app-whishlist>
+    </div>
+    <div [ngStyle]="{'max-height':offer ? '242px': 'none'}" class="card-content" (click)="routing()">
+        <div class="img">
+            <img *ngIf="img" [src]="img" alt="">
+            <img *ngIf="!img" [src]="default" class="default">
+        </div>
+
+        <div class="text-container">
+            <div class="title-container">
+                <h5 *ngIf="sponsorship">Patrocinado</h5>
+                <p>{{name}}</p>
+            </div>
+
+            <div class="offer-container">
+                <ng-container *ngIf="offer">
+                    <app-offer-tag [show]="offer"></app-offer-tag>
+                    <div class="numbers">
+                        <h2>{{actualCost | currency}}</h2>
+                        <h4><del>{{oldCost | currency}}</del></h4>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!offer">
+                    <h2>{{actualCost | currency}}</h2>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

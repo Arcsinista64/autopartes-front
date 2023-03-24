@@ -1,0 +1,267 @@
+<div class="small-searcher">
+    <app-search-small title="Pedidos"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<div class="order-container" *ngIf="order$ | async as order">
+    <div class="order-top">
+        <div class="top-title">
+            <p>Detalle de pedido</p>
+        </div>
+        <div class="top-row">
+            <p>Pedido el {{order.created_at | date}}</p>
+            <p>Pedido número <span>{{order.public_id}}</span></p>
+            <div [ngSwitch]="order.status" class="order-top-status">
+                <p *ngSwitchCase="undefined" style="background: #eeeeee;">unreceived</p>
+                <p *ngSwitchCase="status[0]" style="background: #F3E9CD; color: #D79E00;">Pendiente</p>
+                <p *ngSwitchCase="status[1]" style="background: #F3E9CD; color: #D79E00;">Pago pendiente</p>
+                <p *ngSwitchCase="status[2]" style="background: #CDE5F3; color: #0077bcd4;">En proceso</p>
+                <p *ngSwitchCase="status[3]" style="background: #CDF3D5; color: #178930;">Aceptado</p>
+                <p *ngSwitchCase="status[4]" style="background: #CDF3F3; color: #0E7E7E;">Enviado</p>
+                <p *ngSwitchCase="status[5]" style="background: #CDF3D5; color: #178930;">Entregado</p>
+                <p *ngSwitchCase="status[6]" style="background: #f3cdcd; color: #D60404;">Rechazado</p>
+                <p *ngSwitchCase="status[7]" style="background: #D9D9D9; color: #606060;">Expirado</p>
+                <p *ngSwitchCase="status[8]" style="background: #D9D9D9; color: #606060;">Cancelado</p>
+                <p *ngSwitchCase="status[9]" style="background: #F3DFCD; color: #AC5D16;">Completado</p>
+            </div>
+        </div>
+        <div class="order-top-button show-btn">
+            <app-button *ngIf="!order.payments[0]?.receipt_url" (click)="redirectToRecipe(order.payments[0]?.voucher_url)" theme="secondary" text="Ver o imprimir vale de OXXO"></app-button>
+            <app-button *ngIf="order.payments[0]?.receipt_url" (click)="redirectToRecipe(order.payments[0]?.receipt_url)" theme="secondary" text="Ver o imprimir recibo"></app-button>
+        </div>
+    </div>
+
+    <div class="order-detail-card">
+        <div class="address">
+            <p class="title">Dirección de envío</p>
+            <p>{{order.address.name}}</p>
+            <p>{{order.address.street}} #{{order.address.int_number}} {{order.address.ext_number}}, col.
+                {{order.address.neighborhood}}, {{order.address.municipality.name}}, {{order.address.state.name}},
+                {{order.address.postal_code}}</p>
+        </div>
+        <div class="payment-information">
+            <p class="title">Método de pago</p>
+            <div class="svg" *ngIf="!order.payments[0]?.voucher_url">
+                <img *ngIf="order.payments[0]?.payment_method?.card_type === 0" src="assets/icons/visa.svg" alt="">
+                <p *ngIf="order.payments[0]?.payment_method?.card_type === 0"> Terminación
+                    {{order.payments[0]?.payment_method?.last_four_digits}}</p>
+                <img *ngIf="order.payments[0]?.payment_method?.card_type === 1" src="assets/icons/mastercard-6.svg" alt="">
+                <p *ngIf="order.payments[0]?.payment_method?.card_type === 1"> Terminación
+                    {{order.payments[0]?.payment_method?.last_four_digits}}</p>
+                <img *ngIf="order.payments[0]?.payment_method?.card_type === 2" src="assets/icons/amex-card.svg" alt="">
+                <p *ngIf="order.payments[0]?.payment_method?.card_type === 2"> Terminación
+                    {{order.payments[0]?.payment_method?.last_four_digits}}</p>
+            </div>
+            <div class="svg" *ngIf="order.payments[0]?.voucher_url">
+                <img src="assets/checkout/oxxo.svg" alt="">
+                <p>Pago en tiendas OXXO</p>
+            </div>
+        </div>
+        <div class="total-card">
+            <p class="title">Totales</p>
+            <div class="total-card-body">
+                <p>Subtotal:</p>
+                <p>{{order.totals.subtotal | currency}}</p>
+                <p>Envío:</p>
+                <p>{{order.totals.shipping | currency}}</p>
+                <p>Descuento:</p>
+                <p>{{order.totals.discounts | currency}}</p>
+                <p>Total:</p>
+                <p>{{order.totals.total | currency}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="order-top-button show-phone-btn">
+        <app-button *ngIf="!order.payments[0]?.receipt_url" (click)="redirectToRecipe(order.payments[0]?.voucher_url)" theme="secondary" text="Ver o imprimir vale de OXXO"></app-button>
+        <app-button *ngIf="order.payments[0]?.receipt_url" (click)="redirectToRecipe(order.payments[0]?.receipt_url)" theme="secondary" text="Ver o imprimir recibo"></app-button>
+    </div>
+
+    <div [ngSwitch]="order.status" class="title-status">
+        <p *ngSwitchCase="status[0]">Actualizado a <span style="color: #D79E00;">Pendiente</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[1]">Actualizado a <span style="color: #D79E00;">Pago pendiente</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[2]">Actualizado a <span style="color: #0077bcd4;">En proceso</span> desde el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[3]">Actualizado a <span style="color: #178930;">Aceptado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[4]">Actualizado a <span style="color: #0E7E7E;">Enviado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[5]">Actualizado a <span style="color: #178930;">Entregado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[6]">Actualizado a <span style="color: #D60404;">Rechazado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[7]">Actualizado a <span style="color: #606060;">Expirado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[8]">Actualizado a <span style="color: #606060;">Cancelado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+        <p *ngSwitchCase="status[9]">Actualizado a <span style="color: #AC5D16;">Completado</span> el {{order.updated_at | date: 'shortDate'}}</p>
+    </div>
+
+    <div class="order-product-list">
+        <div class="products">
+            <div class="product" *ngFor="let item of products; let i = index">
+                <div class="img-list">
+                    <img [src]="item.product.multimedia[0].image" alt="">
+                </div>
+                <div class="info-list">
+                    <p class="bold">{{item.product.name}}</p>
+                    <p>Cantidad: {{item.quantity}}</p>
+                    <p>{{item.product.price | currency}}</p>
+                </div>
+                <div *ngIf="order.status === status[3] || order.status === status[4] || order.status === status[5] || order.status === status[9]" class="tracking-list">
+                    <div *ngIf="item.devolution?.length > 0" class="isDevolution">
+                        <p class="bold">Producto en proceso de devolución</p>
+                        <p (click)="openDevolutionDetailModal(i)"><a target="_blank">Detalle de devoluciones</a></p>
+                    </div>
+                    <div *ngIf="item.devolution.length === 0" class="isntDevolution">
+                        <p class="bold">Información de rastreo</p>
+                        <p *ngIf="productInfo.at(i).get('parcel')?.value">Paquetería: {{productInfo.at(i).get('parcel')?.value}}</p>
+                        <p *ngIf="productInfo.at(i).get('guideNumber')?.value">Número de guía:<a (click)="copy(productInfo.at(i).get('guideNumber')?.value)">{{productInfo.at(i).get('guideNumber')?.value}}</a></p>
+                        <p *ngIf="productInfo.at(i).get('url')?.value"><a target="_blank" [href]="productInfo.at(i).get('url')?.value">Ver seguimiento de paquete</a></p>
+                    </div>        
+                </div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <div class="button">
+                <app-button theme="secondary" text="Evaluar vendedor" (click)="redirectToSellerReview()"></app-button>
+            </div>
+            <div class="button">
+                <app-button theme="secondary" text="Escribir opinión del producto" (click)="redirectToProductReview()">
+                </app-button>
+            </div>
+            <div *ngIf="order.status === status[5] && !allInDevolutionProcess" class="button">
+                <app-button theme="secondary" text="Devolver" (click)="openModal()"></app-button>
+            </div>
+            <!-- <div class="button">
+                <app-button theme="secondary" text="Solicitar factura electrónica (CFDI)"></app-button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<app-modal style="overflow-y: auto;" title='Devolución' #modal [dialogConfig]="{ width: '60%', height: 'auto' }">    
+    <ng-container class="modal-row-container" [formGroup]="devolutionForm">
+        <div class="modal-row">
+            <label>Nombre</label>
+            <app-input placeholder="Nombre" name="name" ngDefaultControl formControlName="name">
+                <span class="error-msg" *ngIf="name?.errors?.required && (name?.dirty || name?.touched)">
+                    Escriba un nombre que represente el problema
+                </span>       
+            </app-input>
+        </div>
+    
+        <div class="modal-row">
+            <label>Producto</label>
+            <div class="product-review-card">
+                <div class="product-info">
+                    <button mat-button *ngIf="!selectedProduct" [matMenuTriggerFor]="menu">Seleccionar producto a devolver...</button>
+                    <button mat-button *ngIf="selectedProduct" [matMenuTriggerFor]="menu">
+                        <div class="ddl_product selected-image">
+                            <div class="img">
+                                <img *ngIf="!selectedProduct.product.multimedia[0]?.image" src="assets/icons/box.svg" alt="">
+                                <img *ngIf="selectedProduct.product.multimedia[0]?.image" [src]="selectedProduct.product.multimedia[0]?.image" alt="">
+                            </div>
+                            <div class="info">
+                                <p class="bold">{{selectedProduct.product.name}}</p>
+                                <p>{{selectedProduct.product.price | currency}}</p>
+                            </div>
+                        </div>
+                    </button>
+        
+                    <mat-menu #menu="matMenu">
+                        <div *ngFor="let item of products">
+                            <button mat-button style="background: white; border: none;"  *ngIf="item.devolution[0]?.remaining > 0 || item.devolution.length === 0" [value]="item">
+                                <div  class="ddl_product" (click)="changeProduct(item)">
+                                    <div class="img">
+                                        <img *ngIf="!item.product.multimedia[0].image" src="assets/icons/box.svg" alt="">
+                                        <img *ngIf="item.product.multimedia[0].image" [src]="item.product.multimedia[0].image" alt="">
+                                    </div>
+                                    <div class="info">
+                                        <p class="bold">{{item.product.name}}</p>
+                                        <p>{{item.product.price | currency}}</p>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+    
+        <div class="modal-row">
+            <label>Cantidad</label>
+                <input (keyup)="validateMaxQty()" style="padding: 0 12px; height: 43px" maxLength="3" type="number" placeholder="Cantidad a devolver" name="quantity" ngDefaultControl formControlName="quantity">
+                <span 
+                    class="error-msg"
+                    *ngIf="quantity?.errors?.required && (quantity?.dirty || quantity?.touched)">
+                    Escriba la cantidad
+                </span>            
+        </div>
+        
+        <div class="modal-row">
+            <label>Razón</label>
+                <input style="padding: 0 12px; height: 43px" maxLength="255" type="text" placeholder="Razón de devolución" name="reason" ngDefaultControl formControlName="reason">
+
+                <span 
+                    class="error-msg"
+                    *ngIf="reason?.errors?.required && (reason?.dirty || reason?.touched)">
+                    Escriba la razón
+                </span>            
+        </div>
+    
+        <div class="modal-row modal-buttons">
+            <app-button class="btn" (click)="sendShipment()" text="Enviar"></app-button>
+        </div>
+    </ng-container>
+</app-modal>
+
+<app-modal title='Detalle de devoluciones' #modalDevolutionDetail [dialogConfig]="{ width: '60%', height: 'auto' }">
+    <mat-tab-group disableRipple="true">
+        <mat-tab *ngFor="let tab of devolutionsSelected; let i = index" [label]="'Devolución '+ (i+1)">
+                <div class="modal-reason">
+                    <div class="name">
+                        <label>Nombre</label>
+                        <p>{{tab.name}}</p>
+                    </div>
+                    <div [formGroup]="devolutionDetailForm" class="qty">
+                        <label>Cantidad</label>
+                        <p>{{tab.quantity}}</p>
+                        <!--DON'T ERASE THIS, IS A REFERENCE FOR EDITABLE FIELD WHEN DO 'PUT' IN A DEVOLUTION 
+                            IS PLANNED USE IT IN FUTURE FIELDS AS SHIPPING COST, PARCEL AND CODE-->
+                        <!-- <div class="row">
+                            <input (keyup)="patchCorrectValue()" class="input" formControlName="quantityDetail" type="number">
+                            <div *ngIf="!editMode" class="buttons">
+                                <button class="devolutionBtn" mat-button (click)="edit()"><mat-icon>edit</mat-icon></button>
+                            </div>
+                            <div style="display: flex; gap: 6px;" *ngIf="editMode" class="buttons">
+                                <button class="devolutionBtn" mat-button (click)="close()" ><mat-icon>close</mat-icon></button>
+                                <button class="devolutionBtn" mat-button (click)="check()" ><mat-icon>check</mat-icon></button>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="date">
+                        <label>Fecha</label>
+                        <p>{{tab.updated_at | date:'medium'}}</p>
+                    </div>
+                    <div class="reason">
+                        <label>Razón</label>
+                        <p>{{tab.reason}}</p>
+                    </div>
+                    <div class="status">
+                        <label>Estatus</label>
+                        <p>{{translateDevolution(tab.status)}}</p>
+                    </div>
+                    <div class="shipping_company">
+                        <label>Paquetería</label>
+                        <p>{{tab.shipping_company || 'NA'}}</p>
+                    </div>
+                    <div class="shipping_cost">
+                        <label>Precio</label>
+                        <p>{{tab.shipping_cost | currency}}</p>
+                    </div>
+                    <div class="shipping_guide">
+                        <label>Código de rastreo</label>
+                        <p>{{tab.shipping_guide || 'NA'}}</p>
+                    </div>
+                  </div>
+                <div class="modal-buttons">
+                    <app-button class="btn" (click)="closeDevolutionDetailModal()" text="OK"></app-button>
+                </div>
+        </mat-tab>
+      </mat-tab-group>
+
+</app-modal>

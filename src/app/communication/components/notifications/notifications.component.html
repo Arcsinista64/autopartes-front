@@ -1,0 +1,59 @@
+<!-- TODO: Define correct conditional for empty placeholder -->
+<div *ngIf="empty" class="empty-notifications">
+        <span>
+            <img src="assets/icons/empty-notifications.svg" alt="">
+        </span>
+        <h3>Aún no tienes notificaciones</h3>
+</div>
+<div class="chat">
+    <div class="chat_list">
+        <app-chat 
+            [class.hide]="details" 
+            *ngFor="let item of chatList; let i = index" 
+            (notificationSelected)="setCrumb($event)" 
+            (click)="openChat(item.id, item.sender.first_name + ' ' + item.sender.last_name, item.message, item.reciever_seen !== null)"
+            [id]="item.id"  
+            [principalText]="item.title"  
+            [secondaryText]="item.snippet"  
+            [senderName]="item.sender.first_name"  
+            [time]="item.updated_at"
+            [seen]="item.reciever_seen !== null"
+        ></app-chat>
+    </div>
+    
+    <div class="chat_panel empty" *ngIf="chatSelected===''" >
+        <app-wording style="visibility: hidden;" [chatType]="3"></app-wording>
+    </div>
+    
+    <div class="chat_panel" *ngIf="chatSelected!==''">
+        <ng-container *ngIf="noti$ | async as noti">
+            <app-wording [chatType]="3" [data]="noti"></app-wording>
+            <div class="message">
+                <h2>Mensaje</h2>
+                <div class="card">
+                    <div class="question">
+                        <div class="profile-pic">
+                            <span [ngClass]="
+                            {
+                                'zeroth': color==='0' || color==='4' || color==='8' || color==='c', 
+                                'first':  color==='1' || color==='5' || color==='9' || color==='d', 
+                                'second': color==='2' || color==='6' || color==='a' || color==='f', 
+                                'third':  color==='3' || color==='7' || color==='b' || color==='e'
+                            }">{{initial}}</span>
+                        </div>
+                        <div>
+                            <ng-container *ngIf="message !== ''">
+                                <p >{{receiver}}</p>
+                                <p>{{message}}</p>
+                            </ng-container>
+                            <ng-container *ngIf="message === ''">
+                                <p>{{receiver}}</p>
+                                <p>No hay mensajes</p>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

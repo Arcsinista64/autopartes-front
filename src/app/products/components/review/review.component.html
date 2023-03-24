@@ -1,0 +1,8 @@
+<div class="review">
+    <div *ngIf="grade" class="left">
+        <h3 *ngIf="name">{{name}}</h3> 
+        <h3 *ngIf="name === ' '">Anónimo</h3> 
+        <app-stars-grades [rating]="grade"></app-stars-grades>
+    </div>
+    <p class="rigth">{{description}}</p>
+</div>

@@ -1,0 +1,37 @@
+<div class="small-searcher">
+    <app-search-small title="Ayuda"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<div [formGroup]="helpForm" class="help-container">
+    
+    <app-title title="Ayuda"></app-title>
+    <p>Llena este simple formulario para poder ayudarte en lo que necesites y nos pondremos en conacto contigo.</p>
+
+    <div class="row">
+        <app-input [material]="true" [formCtr]="name" label="Nombre" placeholder="Nombre">
+            <span class="error-msg" *ngIf="name?.errors?.required && (name?.dirty)">Nombre requerido</span>
+        </app-input>
+    </div>
+    <div class="row">
+        <app-input [material]="true" [formCtr]="email" label="Correo" placeholder="Correo">
+            <span class="error-msg" *ngIf="email?.errors?.required && (email?.dirty)">Correo electrónico requerido</span>
+            <span class="error-msg" *ngIf="email?.invalid && (email?.value.length>0)">Formato electrónico de correo incorrecto</span>
+        </app-input>
+    </div>
+    <div class="row">
+        <app-input [material]="true" [formCtr]="phone_number" label="Teléfono" placeholder="Teléfono">
+            <span class="error-msg" *ngIf="phone_number?.errors?.required && (phone_number?.dirty)">Teléfono requerido</span>
+            <span class="error-msg" *ngIf="helpForm.get('phone_number')?.value.length>10 && helpForm.get('phone_number')?.dirty">De ser número de 10 dígitos</span>
+        </app-input>
+    </div>
+    <div class="row">
+        <textarea formControlName="message" placeholder="Mensaje ..."></textarea>
+        <span class="error-msg" *ngIf="message?.errors?.required && (message?.dirty)">Mensaje requerido</span>
+    </div>
+    <div class="button">
+        <app-button class="btn" (click)="sendMessage()" text="Enviar"></app-button>
+    </div>
+</div>
+
+

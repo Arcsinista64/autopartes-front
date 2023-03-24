@@ -1,0 +1,111 @@
+@import "_variable";
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-size: $title-text-size;
+  color: gba(66, 66, 66, 1);
+  margin-top: 40px;
+}
+
+.warnning {
+  font-size: 10px;
+  
+}
+.formBody {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  color: $errors-color;
+  font-size: $errors-size-text;
+}
+
+.form {
+  margin-top: 30px;
+  max-width: 420px;
+  width: 100%;
+  p { 
+    margin-bottom: 15px;
+    color: gba(66, 66, 66, 1);
+  }
+}
+
+.error-input {
+  border-color: $errors-color;
+}
+
+.inputSpace {
+  margin-bottom: 15px;
+}
+
+label {
+  margin-top: 15px;
+  color: gba(66, 66, 66, 1);
+}
+
+
+.links {
+  a {
+    // color: $text-with-links;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+    &:hover { cursor: pointer; }
+  }
+
+  p {
+    padding: 0;
+    margin: 5px;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 18.23px;
+  }
+}
+app-button {
+  margin-top: 10px;
+  height: 43px;
+  display: block;
+}
+
+.password { 
+  grid-area: pass;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  .input { 
+    width: calc(100% - 32px);    
+  }
+  span { 
+    svg { 
+        padding-left: 6px;
+    }
+    &:hover { 
+      cursor: pointer;
+    }
+  } 
+}
+
+::ng-deep .mat-tooltip { 
+  background: rgb(255, 255, 255);
+  border: 1px solid #FD3D00;
+  color: #636363 !important;
+  font-family: Arial;
+  font-size: 12px;
+  line-height: 16px;
+}
+@media screen and (max-width: 800px) { 
+  .formBody {
+    padding: 10px
+  }
+}

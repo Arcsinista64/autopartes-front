@@ -1,0 +1,128 @@
+.grid-container-modal {
+    display: grid;
+    gap: 32px;
+}
+.row3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    grid-template-areas: "expiration_date cvv .";
+}
+.expiration_date {
+    grid-area: expiration_date;
+}
+.cvv {
+    grid-area: cvv;
+}
+.row4 {
+    display: flex;
+    height: 43px;
+    align-items: center;
+
+    p {
+        margin: 0;
+        padding: 4px 24px;
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 21px;
+        background: #f5f5f5;
+        border-radius: 3px;
+        width: 100%;
+        color: #757575;
+    }
+}
+.row6 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 12px;
+    grid-template-areas: "ext int neighborhood";
+}
+.ext {
+    grid-area: ext;
+}
+.int {
+    grid-area: int;
+}
+.neighborhood {
+    grid-area: neighborhood;
+}
+.row7 {
+    margin-top: -12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.row8 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: "cp . .";
+    min-width: 120px;
+}
+.cp {
+    grid-area: cp;
+}
+.row9 {
+    mat-list-item {
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 18px;
+        color: #636363;
+    }
+
+    mat-list-item > mat-list-item-content {
+        padding: 0;
+    }
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    app-button {
+        width: 50%;
+        min-width: 160px;
+        height: 43px;
+    }
+}
+
+/*All styles for mat-select*/
+.select-label {
+    margin-bottom: 2px;
+    
+    font-size: 12px;
+    color: #8d8d8d;
+}
+
+::ng-deep .mat-form-field-infix {
+    width: 100% !important;
+}
+
+@media screen and (max-width: 800px) {
+    //MODAL
+    .row3 {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "expiration_date cvv";
+    }
+    .row6 {
+        grid-template-areas: "ext int" "neighborhood neighborhood";
+        grid-template-columns: repeat(2, 1fr);
+
+        .colonia {
+            grid-area: neighborhood;
+        }
+    }
+    .row7 {
+        grid-template-columns: 1fr;
+    }
+    .row8 {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "cp .";
+    }
+    .modal-buttons {
+        justify-content: center;
+
+        app-button {
+            width: 100%;
+        }
+    }
+}

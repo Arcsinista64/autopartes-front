@@ -1,0 +1,73 @@
+@import '_variable.scss';
+.page {
+  width: 30%;
+  margin: 0 auto;
+  transition: 1s ease;
+}
+form {
+  gap: 24px;
+  width: 100%;
+  display: grid;
+  margin-top: 30px;
+  grid-template-areas:  "email"
+                        "password"
+                        "btn"
+                        "links";                        
+  .email {
+    grid-area: email;
+  }
+  .password {
+    grid-area: password;
+    margin-top: 6px;
+  }
+  .btn {
+    grid-area: btn;
+    height: 43px;
+  }
+}
+
+.inputSpace {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.links {
+  grid-area: links;
+  display: grid;
+  width: 100%;
+  a {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $secondary-color;
+    text-decoration: underline;
+    &:hover { cursor: pointer; }
+  }
+
+  p {
+    padding: 0;
+    margin: 5px;
+    display: flex;
+    font-style: normal;
+    font-weight: normal;
+    align-items: center;
+    line-height: 18.23px;
+    text-decoration: none;
+    justify-content: center;
+    color: $font-color;
+  }
+}
+
+
+@media screen and (min-width: 801px) and (max-width: 1500px) {
+  .page {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 800px) { 
+  .page {
+    width: 90%;
+  }
+
+}

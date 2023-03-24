@@ -1,0 +1,72 @@
+<div class="small-searcher">
+    <app-search-small title="Mis productos favoritos"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<div class="wishlist-header">
+    <div class="filters">
+        <app-title title="Mis productos favoritos"></app-title>
+        <app-input (iconAction)="applyFilters()" [formCtr]="wishlist_filter" (keydown.enter)="applyFilters()"
+            icon="search" placeholder="Buscar en la lista"></app-input>
+    </div>
+    <div *ngIf="filtered" class="wording">
+        <p>{{filtered_length}} resultados para "{{filter}}"</p>
+    </div>
+</div>
+
+<ng-container *ngIf="products$ | async as products">
+    <div class="wishlist-container">
+        <app-dynamic-table *ngIf="products.length > 0" [data]="products$" [displayedColumns]="displayedColumns">
+            <ng-container matColumnDef="img">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <img [src]="element.multimedia[0]?.image || default">
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description_price">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <p class="wishlist-item product-name" [routerLink]="['/product/detail/'+element.id]">{{element.name}}</p>
+                    <p class="wishlist-item">{{element.price | currency}}</p>
+                </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="cart_delete">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div class="price-cell">
+                        <div class="cart-button">
+                            <app-button class="btn" (click)="sendToCart(element.id)" text="Comprar"></app-button>
+                        </div>
+                        <p (click)="confirmDelete(element.id)">Eliminar producto</p>
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </app-dynamic-table>
+        
+        <div class="empty" *ngIf="products.length === 0">
+            <h1>Sin resultados</h1>
+            <p>Agrega tus productos favoritos pulsando en el ícono de corazón, o dando clic al botón de Agregar a favoritos.</p>
+            <div class="btn">
+                <app-button text="Descubre productos" (click)="sendToCatalog()"></app-button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <app-modal [title]="'Eliminar'" #modalDelete [dialogConfig]="{ width: '30%', height: 'max-content' }">
+        <div class="modal-delete-content">
+            <p>¿Está seguro de eliminar el producto?</p>
+        </div>
+        <div class="modal-delete-buttons">
+            <app-button theme="secondary" style="margin: 3px 0; height: 30px; padding: 0; min-width: 150px;" class=""
+                (click)="closeDelete()" text="Cancelar"></app-button>
+            <app-button style="margin: 3px 0; height: 30px; padding: 0; min-width: 150px;" class="btn"
+                (click)="confirmDelete()" text="Confirmar"></app-button>
+        </div>
+    </app-modal> -->
+</ng-container>

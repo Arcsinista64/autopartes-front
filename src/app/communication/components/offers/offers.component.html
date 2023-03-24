@@ -1,0 +1,102 @@
+<div *ngIf="empty" class="empty-notifications">
+    <span>
+        <img src="assets/icons/empty-notifications.svg" alt="">
+    </span>
+    <h3>Aún no tienes ofertas</h3>
+</div>
+<div class="chat">
+    <div class="chat_list">
+        <app-chat 
+            [class.hide]="details" 
+            *ngFor="let item of chatList; let i = index" 
+            (notificationSelected)="setCrumb($event)" 
+            (chatSelected)="openChat(
+                $event, 
+                item.seller?.first_name, 
+                item.offer_notifications[0]?.sender_seen, 
+                item.offer_notifications[0]?.id, 
+                item.offer_notifications[0]?.seller_notification
+            )"
+            [id]="item.id"
+            [principalText]="item.messages[0]?.message"  
+            [secondaryText]="'Nueva oferta de $'+item.offer"  
+            [senderName]="item.buyer?.first_name+' '+item.buyer?.last_name"  
+            [time]="item.updated_at"
+            [seen]="item.offer_notifications[0]?.sender_seen"> 
+        </app-chat>
+    </div>
+
+    <div class="chat_panel empty" *ngIf="chatSelected===''" >
+        <app-wording style="visibility: hidden;" [seller]="seller" [chatType]="1"></app-wording>
+    </div>
+    <div class="chat_panel" *ngIf="chatSelected!==''">
+        <ng-container *ngIf="offer$ | async as offer">
+            <app-wording [chatType]="1" [seller]="seller" [data]="offer" [remainingTime]="remainingDays()"></app-wording>
+            <div [formGroup]="offerForm" class="offer-card">
+                <div class="img">
+                    <img [src]="offer.product?.multimedia[0]?.image || '../../../../assets/default-image.jpg'" alt="">
+                </div>
+                <div class="description">
+                  <div class="name">
+                    <p (click)="goTo(offer.product?.id)">{{offer.product?.name}}</p>
+                  </div>
+                  <div *ngIf="!counteroffer" class="offer">
+                    <p *ngIf="offer.status !== 2 && offer.counter_offer === offer.accepted_offer">Oferta:</p>
+                    <p *ngIf="offer.status !== 2 && offer.counter_offer === offer.accepted_offer">{{offer.offer | currency}}</p>
+                    <p *ngIf="offer.status === 2 || offer.counter_offer !== offer.accepted_offer">Contra oferta:</p>
+                    <p *ngIf="offer.status === 2 || offer.counter_offer !== offer.accepted_offer">{{offer.counter_offer | currency}}</p>    
+                  </div>
+                  <div *ngIf="counteroffer" class="offer">
+                    <p>Nueva oferta:</p>
+                    <input type="number" step="1" placeholder="$0.00" formControlName="counterOffer">
+                    <div *ngIf="counterOffer?.invalid && counterOffer?.dirty">
+                        <span class="error-msg" *ngIf="counterOffer?.errors?.required">Oferta necesaria</span>
+                    </div>
+                  </div>
+                  <div class="counteroffer">
+                    <ng-container *ngIf="counteroffer">
+                        <a (click)="change()">Cancelar</a>
+                        <h3>{{offer.offer | currency}}</h3>
+                        <!-- <h3 *ngIf="offer.status === 2 || offer.counter_offer">{{offer.counter_offer | currency}}</h3>    -->
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="buttons" *ngIf="!counteroffer && (offer.status === 4 || offer.status === 2)">
+                    <div class="button">
+                        <app-button theme="quaternary" *ngIf="showOfferbuttons(offer)" (click)="sendCounterOfferLogic(0)" class="btn" text="Aceptar oferta"></app-button>
+                    </div>
+                    <div class="button">
+                        <app-button theme="tertiary" *ngIf="showOfferbuttons(offer)" (click)="sendCounterOfferLogic(1)" class="btn" text="Rechazar oferta"></app-button>
+                    </div>
+                    <div class="button">
+                        <app-button theme="secondary" *ngIf="showOfferbuttons(offer) && seller" (click)="change()" class="btn btn3" text="Contraofertar"></app-button>
+                    </div>
+                </div>
+                <div *ngIf="counteroffer" class="buttons">
+                    <div class="button">
+                        <app-button theme="quaternary" class="btn" (click)="sendCounterOfferLogic(2)" text="Enviar oferta"></app-button>
+                    </div>
+                </div>
+                <div *ngIf="offer.status === 0 || offer.status === 1 || offer.status === 3" class="buttons status">
+                    <h1 style="color: #D60404" *ngIf="offer?.status === 1">Rechazada</h1>
+                    <h1 style="color: #D60404" *ngIf="offer?.status === 3">Expiró</h1>
+                    <h1 style="color: #178930" *ngIf="offer?.status === 0">Aceptada</h1>
+                </div>
+                <!-- <div class="message" *ngIf="seller && offer?.status !== 1 && offer?.status !== 0">
+                    <div style="display: flex;" class="txtarea">
+                        <div class="pic">
+                            <span [ngClass]=" {
+                                'receiver': color[0]==='receiver',
+                                'zeroth':   color[0]==='0' || color[0]==='4' || color[0]==='8' || color[0]==='c', 
+                                'first':    color[0]==='1' || color[0]==='5' || color[0]==='9' || color[0]==='d', 
+                                'second':   color[0]==='2' || color[0]==='6' || color[0]==='a' || color[0]==='f', 
+                                'third':    color[0]==='3' || color[0]==='7' || color[0]==='b' || color[0]==='e'
+                            }">{{initial[0]}}</span>
+                        </div>
+                        <textarea formControlName="offer_message" placeholder="Mensaje ..."></textarea>
+                    </div>
+                </div> -->
+            </div>
+        </ng-container>
+    </div>
+</div>

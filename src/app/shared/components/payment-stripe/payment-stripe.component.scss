@@ -1,0 +1,41 @@
+@import '_variable.scss';
+form {
+    gap: 1rem;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "name name"
+                         "card card"
+                          "expired cvv";
+    input { 
+        padding: 10px;
+        font-size: $forms-font-size;
+        height: $forms-component-height; 
+    }
+    .name { grid-area: name; }
+    .card { grid-area: card; }
+    .expired { grid-area: expired; }
+    .cvv { grid-area: cvv; }
+    .border {
+        width: 100%;
+        padding: 11px;
+        border-radius: 5px;
+        font-family: Arial;
+        box-sizing: border-box;
+        background-color: white;
+        border: 1px solid #CACACA;
+        height: $forms-component-height;
+    }
+    
+}
+@media screen and (max-width: 800px) {
+    form {
+        width: 100%;
+        margin-bottom: 20px;
+        grid-template-columns: auto;
+        grid-template-areas: "name name" 
+                             "card card" 
+                             "expired cvv";
+        .row { label { input { width: 100%; } } }
+    }
+}  

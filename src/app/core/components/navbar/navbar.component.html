@@ -1,0 +1,57 @@
+<div class="all">
+    <div class="top">
+        <div class="left">
+            <p *ngIf="!logged" >¡Bienvenido! <span [routerLink]="['/auth']">Iniciar sesión</span> o <span [routerLink]="['/auth/register']">regístrate</span></p>
+            <p *ngIf="logged">¡Bienvenido! <span [routerLink]="['/account']">{{userName}}</span></p>
+        </div>
+        <div class="rigth">
+            <p class="routes" *ngFor="let item of routes3" (click)="routingTOSeller(item.route)">{{item.name}}</p>
+        </div>
+    </div>
+    <div class="navbar">
+        <div (click)="open()" class="sub-icons">
+            <a class="icon">
+                <svg width="26" height="20" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.33301 13.5H18.6663M1.33301 0.5H18.6663H1.33301ZM1.33301 7H18.6663H1.33301Z" stroke="#212121"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        </div>
+        <div class="logo">
+            <img [routerLink]="['/']" src="assets/logo-wt-text.png">
+        </div>
+        <div class="options search-bar" [formGroup]="filterForm">
+            <app-input (keydown.enter)="applyFilters()" icon="search" placeholder="Escribe aquí lo que buscas"
+                [formCtr]="name"></app-input>
+            <app-button text="Buscar" (click)="applyFilters()"></app-button>
+        </div>
+        <div class="icons">
+            <mat-icon [matBadge]="notifications" matBadgeColor="warn" [matBadgeHidden]="notifications === 0">
+                <img [routerLink]="['communication/offers']" src="assets/notification-icon.svg" alt="">
+            </mat-icon>
+            <mat-icon [matBadge]="cart" matBadgeColor="warn" [matBadgeHidden]="cart === 0">
+                <img [routerLink]="['/checkout/cart/']" src="assets/cart.svg" alt="">
+            </mat-icon>
+            <span class="profile-sec" *ngIf="!showDropDown" (click)="routeToLogIn()">
+                <img id="profile" src="assets/profile.svg" alt="">
+                <img id="arrow" src="assets/down-arrow.svg" alt="">
+            </span>
+            <span class="profile-sec logged" *ngIf="showDropDown" [matMenuTriggerFor]="menu">
+                <img id="profile" src="assets/profile.svg" alt="">
+                <img id="arrow" src="assets/down-arrow.svg" alt="">
+            </span>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['account']">Mi cuenta</button>
+                <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div *ngIf="categories$ | async" class="navbar-list">
+        <ul>
+            <li *ngFor="let item of routes1" [routerLink]="item.route">{{item.name}}</li>
+            <li *ngFor="let item of routes2" (click)="goTo(item.id || '')">{{item.name}}</li>
+            <li routerLink="decode">Decodifica tu serie</li>
+            <li (click)="routingTOSeller('sell')">Vender</li>
+        </ul>
+    </div>
+</div>

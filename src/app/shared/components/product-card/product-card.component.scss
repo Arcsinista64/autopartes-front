@@ -1,0 +1,97 @@
+.card {
+    width: auto;
+    padding: 12px;
+    max-height: 320px;
+    max-width: 224px;
+    min-width: 84px;
+    box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.20);
+    height: 100%;
+    display: grid;
+    grid-template-rows: 5% 95%;
+    gap: 12px;
+    &:hover { 
+        cursor: pointer;
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.40)!important;
+    }
+    
+    .heart {
+        text-align: right;
+    }
+ 
+    .card-content { 
+        display: grid;
+        grid-template-rows: calc(60% - 8px) calc(40% - 8px);
+        gap: 12px;
+        .img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img { 
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: 100%;
+            }
+            .default { 
+                width: calc(100% - 12px);
+                padding: 24px;
+            }
+        }
+        .text-container { 
+            display: grid;
+            grid-template-rows: 50% 50%;
+        }
+    }
+
+    
+    .title-container {
+        display: grid;
+        justify-content: flex-start;
+        align-items: flex-start;
+        h5 {
+            margin: 5px 0;
+            color: #888888;
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: 400;
+        }
+        p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5B5B5B;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    }
+
+    .offer-container {
+        display: grid;
+        h2 {
+            margin: auto 0;
+            font-size: 18px;
+            color: #636363;
+            font-weight: bold;
+        }
+        .numbers {
+            display: flex;
+            justify-content: flex-start;
+            h4 { 
+                font-size: 12px;
+                color: #A9A9A9; 
+                margin-left: 20px;
+                del {
+                    text-decoration: line-through;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .img { 
+        max-height: 124px;
+    }
+}

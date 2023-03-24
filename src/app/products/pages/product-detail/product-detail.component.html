@@ -1,0 +1,130 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="small-searcher">
+      <app-search-small title="Detalle de producto"></app-search-small>
+  </div>
+  <app-breadcrumb [array]="crumbData"></app-breadcrumb>
+  <app-title title="Detalle de producto"></app-title>
+
+  <div class="page"> 
+    <div class="top">
+      <div class="left">
+        <app-product-carousel [slides]="slides"></app-product-carousel>
+      </div>
+      <div class="right">
+        <app-offer-tag [show]="isDiscount"></app-offer-tag>
+        <div class="title-product">
+          <h1>{{product.product.name}}</h1>
+        </div>
+        <div class="prices">
+          <h3 class="amount">{{product.product.price | currency}}</h3>
+          <h4 *ngIf="isDiscount" class="last-amount">
+            <del>{{(product.product.price | currency) || ''}}</del>
+          </h4>
+          <h4 class="part-number"> - Número de parte {{product.product.part_number}}</h4>
+        </div>
+        <div class="description">
+          <p>{{product.product.description}}</p>
+          <p>Condición: <span>{{product.product.condition.name}}</span></p>
+          <p>Marca: <span>{{product.product.brand}}</span></p>
+          <p>País de origen: <span>{{product.product.origin.name}}</span></p>
+          <p>Garantía: <span>{{product.product.warranty}}</span></p>
+          <p>Días de devolución: <span>{{product.product.warranty}}</span></p>
+          <p *ngIf="product.product.shipment_type.text === 'Por convenio'">Envío: <span>Costo de envío se calculará al momento de hacer la compra.</span></p>
+          <p *ngIf="product.product.shipment_type.text === 'Envío Gratis'">Envío: <span>Gratis</span></p>
+          <p *ngIf="(product.product.shipment_type.text === 'Fuera de convenio' || product.product.shipment_type.text === 'Hago mis propios envíos') && moreExpensive > 0">Envío: <span>{{moreExpensive | currency}}</span></p>
+          <p *ngIf="product.product.shipment_type.text === 'Hago mis propios envíos' && moreExpensive === 0">Envío: <span>De acuerdo con el vendedor</span></p>
+          <p>Entrega: <span>Tiempo de entrega estimado de 2 a 5 días hábiles.</span></p>
+        </div>
+
+
+        <div class="payment-methods">
+          <p>Métodos de pago:</p>
+          <img src="/assets/checkout/visa.png">
+          <img class="mastercard" src="assets/checkout/mastercard.png">
+          <img src="assets/checkout/amex.png">
+          <img src="assets/checkout/oxxo.png">
+        </div>
+
+        <form [formGroup]="productAddForm">
+          <p>Elige cantidad</p>
+          <div class="qty-container">
+            <app-select searchPlaceholder="Elige cantidad" [displayLabel]="false" class="qty-selector" margin="auto" [formGrp]="productAddForm" formCtr="qty" placeholder="#" [data]="qtyAvailable" selectKey="opt" displayKey="opt"></app-select>
+            <app-button theme="quinternary" *ngIf="!product.wishlist" class="small" (click)="addToWhishList(product.product.id)" text="Agregar a favoritos"></app-button>
+            <app-button theme="quinternary" *ngIf="product.wishlist" class="small" (click)="removeOnWhishList(product.product.id)" text="Eliminar de favoritos"></app-button>
+          </div>
+          <div class="offer">
+            <input type="number" step="0.00001" placeholder="$ Tu oferta" formControlName="offer">
+            <app-button theme="quaternary" [loading]="loading" [disabled]="loading" (click)="postOffer(product.product.price)" text="Enviar  oferta"></app-button>
+          </div>
+          <div *ngIf="offer?.invalid && offer?.dirty">
+            <span class="error-msg" *ngIf="offer?.errors?.required">Oferta necesaria</span>
+          </div>
+          <app-button class="small" (click)="addToCart()" theme="tertiary" icon="icons/white-cart.svg" text=" Agregar al carrito"></app-button>
+
+      </form>
+      </div>
+    </div>
+
+    <!-- This section should separate seller reviews by a longer scroll  -->
+    <div class="row seller-review-card">
+      <h2>Opiniones del vendedor</h2>
+      <div class="card-reviews">
+        <div class="average">
+          <p class="number">{{rating}}</p>
+          <app-stars-grades [rating]="rating"></app-stars-grades>
+          <p>{{total}} valoraciones</p>
+        </div>
+        <div class="global">
+          <div class="good">
+            <span class="type">Bueno</span><mat-progress-bar mode="determinate" [value]="good_bar"></mat-progress-bar><span class="qty">{{good[0]?.count || 0}}</span>
+          </div>
+          <div class="neutral">
+            <span class="type">Neutral</span><mat-progress-bar mode="determinate" [value]="neutral_bar"></mat-progress-bar><span class="qty">{{neutral[0]?.count || 0}}</span>
+          </div>
+          <div class="bad">
+            <span class="type">Malo</span><mat-progress-bar mode="determinate" [value]="bad_bar"></mat-progress-bar><span class="qty">{{bad[0]?.count || 0}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="product.product.product_reviews.length > 0" class="row product-review">
+      <h2>Opiniones del producto</h2>
+      <app-review 
+        *ngFor="let item of product.product.product_reviews"
+        [name]="item.buyer.user.first_name +' '+ item.buyer.user.last_name" 
+        [grade]="item.rating" 
+        [description]="item.comment">
+      </app-review>
+    </div>
+    <div class="row suggested-seller">
+      <h2>Más productos del vendedor</h2>
+      <app-recommended-products [title]="''" [data]="sellerProducts$ | async"></app-recommended-products>
+    </div>
+    <div class="row FAQ">
+      <h2>Preguntas frecuentes</h2>
+      <app-product-question question="¿En qué condiciones se encuentra el producto?"      [answer]="'El producto esta en condición de ' + product.product.condition.name"></app-product-question>
+      <app-product-question question="¿Qué marca es el producto?"                         [answer]="'El producto es marca ' + product.product.brand"></app-product-question>
+      <app-product-question question="¿Cúal es el país de origen del producto?"           [answer]="'El producto fue fabricado en ' + product.product.origin.name"></app-product-question>
+      <app-product-question question="¿Cúanto tiempo tengo de garantía del producto?"     [answer]="'El producto cuenta con una garantía de ' + product.product.warranty"></app-product-question>
+      <app-product-question question="¿Cúanto tiempo tengo para hacer alguna devolución?" [answer]="'El producto tiene un límite de tiempo para ser devuelto de ' + product.product.warranty"></app-product-question>
+      <app-product-question question="¿Cúal es el número de parte de este producto?"      [answer]="'El número de parte es ' + product.product.part_number"></app-product-question>
+    </div>
+    <div class="row question">
+      <h2>¿Tienes otra pregunta acerca del producto?</h2>
+      <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,.</p> -->
+      <div class="inputs" [formGroup]="questionForm">
+        <input type="text" formControlName="question" placeholder="Hacer pregunta">
+        <app-button theme="primary" (click)="askQuestion()" text="Enviar"></app-button>
+      </div>
+      <span class="error-msg" *ngIf="question?.errors?.required && question?.dirty">La pregunta es requerida</span>
+    </div>
+    <div *ngIf="product.product.questions.length > 0" class="row middle-questions">
+      <h2>Últimas preguntas</h2>
+      <app-product-question *ngFor="let item of product.product.questions" [question]="item.notification.message" [answer]="item.reply"></app-product-question>
+    </div>
+    <div class="row suggested">
+      <h2>Productos relacionados</h2>
+      <app-recommended-products [title]="''" [data]="product.recommended_products"></app-recommended-products>
+    </div>
+  </div>
+</ng-container>

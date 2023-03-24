@@ -1,0 +1,134 @@
+<div class="small-searcher">
+	<app-search-small title="Resultados"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<div class="grid-container">
+	<div class="filter-panel" [ngStyle]="{'display':filterPanel ? 'contents': ''}">
+		<div class="filter-header" [ngStyle]="{'display':filterPanel ? 'flex': 'none'}">
+			<h1>Filtrar</h1>
+			<mat-icon style="font-family: 'Material Icons';" (click)="showHideFilterPanel()">close</mat-icon>
+		</div>
+		<mat-tab-group>
+			<mat-tab label="Productos">
+				<form class="grid-form" [formGroup]="filterForm">
+					<div>
+						<app-input [formCtr]="name" label="NOMBRE" icon="search" placeholder="Buscar">
+						</app-input>
+					</div>
+					<div class="form-control">
+						<app-multiselect label="CATEGORÍA" selectKey="id" displayKey="name" [data]="categories$ | async"
+							placeholder="Buscar" [filter]="false" [formGrp]="filterForm" formCtr="category">
+						</app-multiselect>
+					</div>
+					<div class="form-control">
+						<app-multiselect label="SUBCATEGORÍA" selectKey="id" displayKey="name"
+							[data]="subcategories$ | async" placeholder="Buscar" [filter]="false" [formGrp]="filterForm"
+							formCtr="subcategory">
+						</app-multiselect>
+					</div>
+					<div class="form-control">
+						<label class="custom-slider">
+							<p class="label">RANGO DE PRECIOS</p>
+							<ng-container *ngIf="maxValue$ | async">
+								<ngx-slider 
+								[(value)]="value" 
+								[(highValue)]="topValue" 
+								[options]="options"
+								(valueChange)="minPriceChange($event)"
+								(highValueChange)="maxPriceChange($event)"></ngx-slider>
+								<div class="price_range_inputs">
+									<input type="number" [(ngModel)]="value" [ngModelOptions]="{standalone: true}">
+									<input type="number" [(ngModel)]="topValue" [ngModelOptions]="{standalone: true}">
+								</div>
+							</ng-container>
+							
+							
+							<!-- <div class="custom-slider">
+								<ngx-slider [(value)]="value" [(highValue)]="topValue" [options]="options"></ngx-slider>
+							</div> -->
+							<!-- <div class="price_range_inputs">
+								<input type="text" placeholder="0" [(ngModel)]="value"
+									[ngModelOptions]="{standalone: true}">
+								<input type="text" placeholder="1000" [(ngModel)]="topValue"
+									[ngModelOptions]="{standalone: true}">
+							</div> -->
+						</label>
+					</div>
+					<div class="form-control">
+						<app-input label="NÚMERO DE PARTE" [formCtr]="part_number" placeholder="#"></app-input>
+					</div>
+					<div class="form-control">
+						<app-input label="MARCA" [formCtr]="brand" placeholder="Marca"></app-input>
+					</div>
+					<div class="form-control">
+						<app-select [showLabel]="true" label="PAÍS DE ORIGEN" placeholder="Buscar" selectKey="id" displayKey="name"
+							[data]="countries$ | async" [formGrp]="filterForm" formCtr="origin">
+						</app-select>
+					</div>
+					<div class="form-control">
+						<app-select [showLabel]="true" label="CONDICIÓN" placeholder="Buscar" [data]="conditions$ | async" selectKey="id"
+							displayKey="name" [formGrp]="filterForm" formCtr="condition"></app-select>
+					</div>
+					<div class="filter-button form-control" [ngStyle]="{'display':filterPanel ? 'block': ''}">
+						<app-button class="btn" (click)="applyFilters()" text="Aplicar filtros"></app-button>
+					</div>
+				</form>
+			</mat-tab>
+			<mat-tab label="Proveedores" disabled></mat-tab>
+		</mat-tab-group>
+	</div>
+
+	<div class="card-container" [ngStyle]="{'display': !filterPanel ? 'block': 'none'}"
+		*ngIf="products$ | async as products">
+
+		<div class="">
+			<div class="cards-title">
+				<app-title [title]="resultsTitle"></app-title>
+				<div class="input-search">
+					<div style="width: 100%;" [ngStyle]="{'display':filterPanel ? 'none': ''}">
+						<div class="svg" (click)="showHideFilterPanel()">
+							<img _ngcontent-bsy-c237="" src="assets/filter-icon.svg" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="products.length > 0" class="cards">
+				<div class="product_card" *ngFor="let i = index;let prod of products">
+					<app-product-card class="card" 
+					[onWishlist]="prod.wishlist"
+					[idProduct]="prod.id"
+					[img]="prod.multimedia[0]?.image || null"
+					[name]="prod.name" 
+					[actualCost]="prod.price">
+					</app-product-card>
+				</div>
+			</div>
+
+			<div class="zero-results" *ngIf="products.length === 0">
+				<div class="zero-results-title">
+					<app-title title="¿No encontraste tu refacción, la buscamos por ti?"></app-title>
+				</div>
+				<a routerLink="/product/suggestions">Envíanos un mensaje</a>
+
+				<div class="suggest-section">
+					<div class="product_card" *ngFor="let prod of products">
+						<!-- Change to suggest products service call -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="paginator">
+			<span *ngIf="currentPage > 1" (click)="applyFilters(currentPage-1)">
+				<img src="../../../../assets/icons/orange-left.svg">
+				<p>Anterior</p>
+			</span>
+			<p class="numbers" *ngFor="let item of pages; let i = index" [ngClass]="{'active': currentPage === i+1}"  (click)="applyFilters(i+1)">{{i+1}}</p>
+			<span *ngIf="currentPage < pages.length" (click)="applyFilters(currentPage+1)">
+				<p>Siguiente</p>
+				<img src="../../../../assets/icons/orange-rigth.svg">
+			</span>
+		</div>
+	</div>
+	

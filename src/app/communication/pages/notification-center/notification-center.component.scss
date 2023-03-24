@@ -1,0 +1,63 @@
+.sub-navbar {
+    padding: 0 50px;
+}
+.communication-content { 
+    display: flex;
+    margin-bottom: 50px;
+    .side-menu { 
+        z-index: 1;
+        display: flex;
+        max-width: 236px;
+        justify-content: center;
+        border-top: 1px solid #F5F5F5;
+    }
+    .chat { 
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        border-top: 1px solid #F5F5F5;
+        app-offers { 
+            width: 100%;
+        }
+        app-questions { 
+            width: 100%;
+        }
+        app-notifications { 
+            width: 100%;
+        }
+        app-all-notifications { 
+            width: 100%;
+        }
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .communication-content { 
+        flex-direction: column;
+        .chat { 
+            width: 100%;
+            justify-content: flex-start !important;
+        }
+        .side-menu { 
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            position: fixed;
+            max-width: unset;
+            background: white;
+            justify-content: center;
+            border-top: 1px solid #F5F5F5;
+        }
+    }
+    
+}
+
+@media screen and (max-width: 600px) {
+    .communication-content { 
+        .side-menu { 
+            justify-content: flex-start;
+        }
+    }
+    
+}

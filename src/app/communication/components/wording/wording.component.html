@@ -1,0 +1,43 @@
+<div *ngIf="data">
+    <div class="top" *ngIf="chatType === 1">
+        <div>
+            <h4 *ngIf="seller">COMO VENDEDOR</h4>
+            <h4 *ngIf="!seller">COMO COMPRADOR</h4>
+            <h1>Seguimiento de la oferta {{data.product?.name}}</h1>
+        </div>
+        <!-- <span>{{data?.updated_at | date:'short'}}</span> -->
+        <p *ngIf="!seller">De: {{data.seller.first_name}} {{data.buyer.last_name}}</p>
+        <p *ngIf="seller">De: {{data.buyer.first_name}} {{data.buyer.last_name}}</p>
+    </div>
+
+    <div class="top" *ngIf="chatType === 2">
+        <div>
+            <h4 *ngIf="seller">COMO VENDEDOR</h4>
+            <h4 *ngIf="!seller">COMO COMPRADOR</h4>
+            <h1>Seguimiento de pregunta para producto {{data.product_listing?.name}}</h1>
+        </div>
+        <!-- <span>{{data?.updated_at | date:'short'}}</span>  -->
+        <p *ngIf="!seller">De: {{data.notification?.receiver?.first_name}} {{data.notification?.receiver?.last_name}}</p>
+        <p *ngIf="seller">De: {{data.notification?.sender.first_name}} {{data.notification?.sender.last_name}}</p>
+    </div>
+    
+    <div class="top" *ngIf="chatType === 3" >
+        <div>
+            <h1>{{data.title}} </h1>
+        </div>
+        <!-- <span>{{data.updated_at | date:'short'}}</span> -->
+        <p *ngIf="seller">De: {{data.receiver.first_name}} {{data.receiver.last_name}}</p>
+        <p *ngIf="!seller">De: {{data.sender.first_name}} {{data.sender.last_name}}</p>
+    </div>
+</div>
+<div *ngIf="data" class="mid">
+    <p *ngIf="chatType === 1">
+        Oferta en producto <span (click)="goTo(data.product?.id)">{{data.product?.name}}</span> y tienes {{remainingTime}} días antes de que
+        expire.</p>
+    <p *ngIf="chatType === 2">
+        Pregunta en producto <span (click)="goTo(data.product_listing?.id)">{{data.product_listing?.name}}</span> respondela y compartela en tu pagina de
+        producto.</p>
+    <p *ngIf="chatType === 3">
+        <!-- <span>Nuevo oferta</span> -->
+    </p>
+</div>

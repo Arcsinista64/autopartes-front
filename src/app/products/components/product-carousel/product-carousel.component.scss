@@ -1,0 +1,91 @@
+@import "_variable.scss";
+
+.principal-image { 
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border: 1px solid #E5E5E5;
+  box-shadow: 1px 2px 6px rgb(195, 195, 195);
+  padding: 18px;
+  img { 
+    max-width: 100% !important;
+    height: fit-content;
+  }
+}
+::ng-deep .xzoom-preview { 
+  min-height: 650px !important;
+}
+.carousel {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  min-height: $min-height-carousel;
+  width: 100%;
+  ul { 
+    padding: 0;
+
+    li { 
+      width: 80vw;
+    }
+  }
+}
+
+
+
+:host ::ng-deep {
+  .owl-carousel .owl-item {
+    width: fit-content !important;
+    margin: 18px 12px;
+    margin-right: 0 !important;
+  }
+  .owl-carousel .owl-item img {
+    width: auto;
+    max-height: 74px;
+  }
+  .owl-prev {
+    display: unset !important;
+  }
+  .owl-prev {
+    position: absolute;
+    left: -52px;
+    background: url(../../../../assets/left.svg) !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-origin: content-box !important;
+  }
+  .owl-next {
+    right: -52px;
+  }
+}
+
+
+
+@media screen and (max-width: 900px) {
+  .navigations { 
+    margin: 0;
+    padding: 0;
+  }
+
+  .carousel {
+    width: calc(100vw - 48px);
+    min-height: 450px;
+    height: auto;
+    ul { 
+      li { 
+        width: 100vw;
+        div { 
+          width: calc(100% - 48px);
+        }
+      }
+    }
+  }
+  .navigations { 
+    button { 
+      width: 10%;
+    }
+  
+    div { 
+      width: 80%;
+    }
+  }
+}

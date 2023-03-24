@@ -1,0 +1,26 @@
+<div *ngIf="!material" class="input-parent">
+    <label class="label">{{label}}</label>
+    <div>
+        <div class="icon" *ngIf="icon">
+            <mat-icon (click)="sendAction()" *ngIf="icon">{{icon}}</mat-icon>
+        </div>
+        <input (keyup)="onChange($event.key)" [(ngModel)]="inputValue" class="icon-input" [maxlength]="maxLength"
+            *ngIf="icon" style="padding-left: 40px;" [placeholder]="placeholder" [formControl]="formCtr" [type]="type">
+        <input (keyup)="onChange($event.key)" [(ngModel)]="inputValue" class="app-input" [maxlength]="maxLength"
+            style="padding-left: 12px;" *ngIf="!icon" [placeholder]="placeholder" [formControl]="formCtr" [type]="type">
+        <ng-content></ng-content>
+    </div>
+</div>
+
+<div *ngIf="material" class="">
+    <mat-form-field color="basic" class="example-full-width" appearance="outline">
+        <mat-label>
+            <!-- TODO: Iplement icon and click action -->
+            <!-- <span class="icon" *ngIf="icon">
+                <mat-icon (click)="sendAction()" *ngIf="icon">{{icon}}</mat-icon>
+            </span> -->
+            {{label}}
+        </mat-label>
+        <input (keyup)="onChange($event.key)" [maxlength]="maxLength" [type]="type" [(ngModel)]="inputValue" [formControl]="formCtr" matInput [placeholder]="placeholder">
+    </mat-form-field>
+</div>

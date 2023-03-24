@@ -1,0 +1,11 @@
+<div class="carousel">
+    <div class="xzoom-container principal-image">
+      <img [src]="selected || default" class="xzoom" [alt]="selected">
+    </div>
+
+    <owl-carousel-o class="thumbnails" [options]="customOptions">
+      <ng-template class="iterator-img" carouselSlide *ngFor="let slide of slides; let i = index" >
+        <img (click)="select(i)" [src]="slide">
+      </ng-template>
+    </owl-carousel-o>
+  </div>

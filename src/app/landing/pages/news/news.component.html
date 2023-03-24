@@ -1,0 +1,23 @@
+<div class="small-searcher">
+    <app-search-small title="Noticias"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<app-title title="Blog"></app-title>
+
+<div  *ngIf="news$ | async as news" class="news-content">
+    <div class="iterator-card" *ngFor="let new of news" [routerLink]="new.id">
+        <div class="left">
+            <!-- TODO: try Rodrigo's advice -->
+            <img [src]="new.multimedia[0].image">
+            <img *ngIf="!new.multimedia[0].image" src="../../../../assets/default-image.jpg">
+        </div>
+        <div class="right">
+            <div class="top">
+                <h3>{{new.title}}</h3>
+                <p class="blog-introduction">{{new.text}}</p>
+            </div>
+            <a [routerLink]="new.id">Leer más...</a>
+        </div>
+    </div>
+</div>

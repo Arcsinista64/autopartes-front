@@ -1,0 +1,41 @@
+.review {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 24px 0;
+    .left {
+        width: 30%;
+        padding: 12px 24px;
+        min-width: 260px;
+        h3 { 
+            margin: 0;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 23px 
+        }
+        p { 
+            color: #5B5B5B; 
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 21px;
+        }
+    }
+    .rigth { 
+        border-left: 2px solid #e5e5e5;
+        padding: 12px 24px;
+        width: 70%;
+    }
+}
+//Tablet, cellphone
+@media screen and (min-width: 801px) and (max-width: 1500px) {
+    .review {
+        grid-template-columns: auto;
+        grid-template-rows: 1fr max-content;
+    }
+}
+//Cellphone
+@media screen and (max-width: 800px) { 
+    .review {
+        grid-template-columns: auto;
+        grid-template-rows: 1fr max-content;
+    }
+}

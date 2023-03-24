@@ -1,0 +1,124 @@
+<ng-container *ngIf="landing$ | async as landing">
+
+    <div class="small-searcher">
+        <app-search-small title="Inicio"></app-search-small>
+    </div>
+    <div class="landing-content">
+        <div *ngIf="banner" class="banner">
+            <div class="content">
+                <div class="background">
+                    <img *ngIf="banner[0]?.web_image" class="long-banner" [src]="banner[0].web_image || null">
+                    <img *ngIf="banner[0]?.mobile_image" class="short-banner" [src]="banner[0].mobile_image || null">
+                    <div class="title">
+                        <h1  (click)="goTo(banner.url)">{{banner[0]?.title}}</h1>
+                        <p class="long-banner">{{banner[0]?.web_description}}</p>
+                        <p class="short-banner">{{banner[0]?.mobile_description}}</p>
+                        <div class="btn-left-card">
+                            <app-button class="btn" (click)="goTo(banner[0].url)" text="Visitar"></app-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="navigation-cards">
+            <div class="iterator-card" *ngFor="let card of landing.categories" (click)="goTo('product/search/', card.id)">
+                    <img [src]="card.image">
+                    <p>{{card.name}}</p>
+            </div>
+        </div>
+
+        <div *ngIf="landing.offer_products.length > 4" class="offers">
+            <h1 routerLink="offers" matRipple [matRippleCentered]="true">Ofertas <mat-icon>link</mat-icon></h1>
+            <div class="carousel">
+                <owl-carousel-o [options]="customOptions">
+                    <ng-template class="iterator-card" carouselSlide *ngFor="let offer of landing.offer_products">
+                        <app-product-card 
+                        [idProduct]="offer.id" 
+                        [img]="offer.multimedia[0]?.image || null" 
+                        [name]="offer.name" 
+                        [onWishlist]="offer.wishlist"
+                        [offer]="true"
+                        [actualCost]="offer.price" 
+                        [oldCost]="offer.oldPrice">
+                        </app-product-card>
+                    </ng-template>
+                </owl-carousel-o>
+            </div>
+        </div>
+        <div *ngIf="landing.offer_products.length <= 4" class="offers">
+            <h1 routerLink="offers" matRipple [matRippleCentered]="true">Ofertas <mat-icon>link</mat-icon></h1>
+            <div class="carousel" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                    <ng-template class="iterator-card" *ngFor="let offer of landing.offer_products">
+                        <app-product-card 
+                        [idProduct]="offer.id" 
+                        [img]="offer.multimedia[0]?.image || null" 
+                        [name]="offer.name" 
+                        [onWishlist]="offer.wishlist"
+                        [offer]="true"
+                        [actualCost]="offer.price" 
+                        [oldCost]="offer.oldPrice">
+                        </app-product-card>
+                    </ng-template>
+            </div>
+        </div>
+       
+        <div class="featured-parent">
+            <h1 routerLink="featured" matRipple [matRippleCentered]="true">Productos destacados <mat-icon>link</mat-icon>
+            </h1>
+            <div *ngIf="landing.featured_products" class="featured">
+                <div *ngIf="featuredCard" class="double-card">
+                    <img *ngIf="featuredCard[0]?.web_image" class="long-banner" [src]="featuredCard[0]?.web_image || null">
+                    <img *ngIf="featuredCard[0]?.mobile_image" class="short-banner" [src]="featuredCard[0]?.mobile_image || null">
+                    
+                    <h2>{{featuredCard[0]?.title}}</h2>
+                    <p class="long-banner"  >{{featuredCard[0]?.web_description}}</p>
+                    <p class="short-banner" >{{featuredCard[0]?.mobile_description}}</p>
+                    <div class="btn-double-card">
+                        <app-button class="btn" (click)="goTo(featuredCard[0]?.url)" text="Visitar"></app-button>
+                    </div>
+                </div>
+        
+                <div class="iterator-card" *ngFor="let feature of landing.featured_products">
+                    <app-product-card 
+                    [onWishlist]="feature.wishlist"
+                    [idProduct]="feature.id" 
+                    [img]="feature.multimedia[0]?.image || null" 
+                    [name]="feature.name"
+                    [actualCost]="feature.price"></app-product-card>
+                </div>
+            </div>
+            <owl-carousel-o class="featured-mobile" [options]="customOptions" >
+                <ng-template class="iterator-card" carouselSlide *ngFor="let feature of landing.featured_products">
+                    <app-product-card 
+                    [idProduct]="feature.id" 
+                    [img]="feature.multimedia[0]?.image || null" 
+                    [name]="feature.name"
+                    [actualCost]="feature.price"></app-product-card>
+                </ng-template>
+            </owl-carousel-o>
+        </div>
+        
+        
+    
+        <div *ngIf="news$ | async as news">
+            <h1 [routerLink]="['blog/']">Blog <mat-icon>link</mat-icon>
+            </h1>
+            <div class="blog">
+                <div [routerLink]="'blog/'+new.id" class="iterator-card" *ngFor="let new of news">
+                    <div class="img">
+                        <img [src]="new.multimedia[0].image">
+                        <img *ngIf="!new.multimedia[0].image" src="../../../../assets/default-image.jpg">
+                    </div>
+                    <div class="text">
+                        <h3>{{new.title}}</h3>
+                        <p class="blog-introduction">{{new.text}}</p>
+                    </div>
+        
+                    <p class="read-more" [routerLink]="'blog/'+new.id">Leer más...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+

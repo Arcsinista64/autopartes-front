@@ -1,0 +1,50 @@
+<mat-radio-group (change)="openNoti($event)" [(ngModel)]="radioButton" aria-label="Select an option">
+    <div class="rd-btn" [ngClass]="{'checked-rd':radioButton==='all'}">
+        <mat-radio-button value="all" >
+            <div class="option" [ngClass]="{'checked':radioButton==='all'}">
+                <div class="sub-option">
+                    <img *ngIf="radioButton!=='all'" src="assets/icons/all-notis.svg">
+                    <img *ngIf="radioButton==='all'" src="assets/icons/all-notis-orange.svg">
+                    <p>Todas</p>
+                </div>
+                <mat-icon *ngIf="newAll" class="icon">lens</mat-icon>
+            </div>
+        </mat-radio-button>
+    </div>
+    <div class="rd-btn" [ngClass]="{'checked-rd':radioButton==='offers'}">
+        <mat-radio-button value="offers" >
+            <div class="option" [ngClass]="{'checked':radioButton==='offers'}">
+                <div class="sub-option">
+                    <img *ngIf="radioButton!=='offers'" src="assets/icons/offer.svg">
+                    <img *ngIf="radioButton==='offers'" src="assets/icons/offer-orange.svg">
+                    <p>Ofertas</p>
+                </div>
+                <mat-icon *ngIf="newOffer" class="icon">lens</mat-icon>
+            </div>
+        </mat-radio-button>
+    </div>
+    <div class="rd-btn" [ngClass]="{'checked-rd':radioButton==='questions'}">
+        <mat-radio-button value="questions">
+            <div class="option" [ngClass]="{'checked':radioButton==='questions'}">
+                <div class="sub-option">
+                    <img *ngIf="radioButton!=='questions'" src="assets/icons/info.svg">
+                    <img *ngIf="radioButton==='questions'" src="assets/icons/info-orange.svg">
+                    <p>Preguntas</p>
+                </div>
+                <mat-icon *ngIf="newQuestion" class="icon">lens</mat-icon>
+            </div>
+        </mat-radio-button>
+    </div>
+    <div class="rd-btn" [ngClass]="{'checked-rd':radioButton==='notifications'}">
+        <mat-radio-button value="notifications" >
+            <div class="option" > 
+                <div class="sub-option">
+                    <img *ngIf="radioButton!=='notifications'" src="assets/icons/message.svg">
+                    <img *ngIf="radioButton==='notifications'" src="assets/icons/message-orange.svg">
+                    <p>Notificaciones</p>
+                </div>
+                <mat-icon *ngIf="newNotification" class="icon">lens</mat-icon>
+            </div>
+        </mat-radio-button>
+    </div>
+</mat-radio-group>

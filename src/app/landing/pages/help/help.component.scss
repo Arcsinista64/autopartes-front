@@ -1,0 +1,40 @@
+:host ::ng-deep {
+    app-title { 
+        h1 { 
+            margin: 0 auto;
+            text-align: center;
+        }  
+    }
+}
+.help-container { 
+    margin: 32px 30%;
+}
+.row { 
+    margin: 24px 0 0 0;
+}
+p { 
+    color: #676767;
+    padding: 12px 0;
+}
+.button { 
+    margin: 18px 0 0 0;
+    height: 43px;
+}
+textarea { 
+    resize: none;
+    padding: 14px 12px !important;
+    height: 128px;
+    border: 1px solid #cccccc;
+}
+
+@media screen and (max-width: 900px) { 
+    .help-container { 
+        margin: 12px 15%;
+    }
+}
+
+@media screen and (max-width: 600px) { 
+    .help-container { 
+        margin: 12px 24px;
+    }
+}

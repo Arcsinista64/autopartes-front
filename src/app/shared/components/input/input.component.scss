@@ -1,0 +1,107 @@
+@import '_variable.scss';
+
+.input-parent {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto auto;
+
+    .icon { 
+        height: 30px;
+        border: none;
+        padding: 11px 9px;
+        position: absolute; 
+        background: transparent;
+
+        mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color.ng-star-inserted { 
+            color: #A8A8A8;
+            font-size: 22px;
+        }
+
+        mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color.ng-star-inserted {
+            height: 24px;
+            width: 24px;
+        }
+        input { margin-top: 10px; }
+
+        &:hover { 
+            cursor: pointer;
+        }
+    }
+}
+::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
+    padding-top: .75em !important;
+}
+
+//Angular material input recustomize
+.mat-form-field {
+  padding-left: 0px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+::ng-deep {
+
+    .mat-form-field-wrapper { 
+      margin: 0 !important;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-flex { 
+      padding: 0 !important;
+      margin-top: 0 !important;
+      height: 43px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-outline { 
+      top: 0 !important;
+    }
+    .mat-form-field-label { 
+      padding-left: 12px;
+    }
+  
+    // mat-input error outline color
+    .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+      color: rgba(253, 61, 0, 1) !important;
+    }
+  
+    // mat-label error style
+    .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+      color: rgba(253, 61, 0, 1) !important;
+      padding-left: 12px !important;
+    }
+  
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+      color: #CCCCCC !important;
+      font-size: 14px !important;
+    }
+    /* Font color */
+    .mat-focused input.mat-input-element {
+      color: #000000 !important;
+      font-size: 14px !important;
+    }
+  
+    .mat-focused .mat-form-field-label {
+      /*change color of label*/
+      color: rgb(100, 100, 100) !important;
+    }
+   
+  
+    input.mat-input-element {
+      margin-top: 0px !important;
+      caret-color: #CCCCCC;
+      font-size: 14px !important;
+      padding-left: 12px;
+    }
+    
+    .mat-form-field-infix { 
+      border: unset;
+      top: 2px;
+      padding: 0 !important;
+      position: unset !important;
+      height: 43px;
+    }
+  }
+  
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0rgb(255, 255, 255)00px rgb(255, 255, 255) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

@@ -1,0 +1,156 @@
+<div class="small-searcher">
+    <app-search-small title="Direcciones"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+
+<div class="addresses-header">
+    <app-title title="Direcciones"></app-title>
+    <h2 class="add-direction" (click)="openAddAddress('Agregar dirección')">Agregar dirección</h2>
+</div>
+
+<div class="addresses-container">
+    <div class="addresses-cards" *ngIf="addresses$ | async as addresses">
+        <ng-container *ngIf="addresses.length > 0">
+            <div *ngFor="let address of addresses" class="card">
+                <div *ngIf="address.delivery_default" class="default">
+                    Dirección predeterminada
+                </div>
+                <div class="body">
+                    <p class="name">{{address.name || ''}}</p>
+                    <p>{{address.street}}{{' #' + address.ext_number + ', '}}col. {{address.neighborhood + ', '}}
+                        {{address.municipality.name + ', '}}{{address.state.name + ', '}}{{address.postal_code}}
+                        Teléfono:
+                        {{address.phone_number || '-'}}</p>
+                </div>
+                <div class="buttons">
+                    <a style="padding-right: 12px; border-right: 1px solid #636363;"
+                        (click)="getAddressInfo('Editar dirección', address.id)">Editar</a>
+                    <a style="padding-left: 12px;" (click)="confirmDelete(address.id)">Eliminar</a>
+                </div>
+                <div style="border-bottom: none;" *ngIf="!address.default" class="default"></div>
+            </div>
+        </ng-container>
+        <app-not-found *ngIf="addresses.length === 0"
+            title="¡Ups!"
+            subtitle="Aún no cuentas con direcciones registradas"
+            description="¡Agiliza tu proceso de compra dándo de alta tus direcciones! Al dar de alta una dirección, selecciona si quiere que ésta sea la predeterminada para tus envíos y nosotros nos encargamos del resto"
+            action="Agregar una dirección" (activated)="openAddAddress('Agregar dirección')">
+        </app-not-found>
+    </div>
+</div>
+
+<app-modal [title]="modal_title" #modal [dialogConfig]="{ width: '60%', height: 'max-content' }">
+    <form [formGroup]="addressForm" class="grid-container-section">
+        <div class="row1">
+            <app-input [material]="true" [formCtr]="name" label="Nombre completo" placeholder="Nombre completo">
+            </app-input>
+            <span class="error-msg" *ngIf="name?.errors?.required && name?.dirty">Escriba el
+                nombre
+                completo</span>
+        </div>
+
+        <div class="row1-5">
+            <app-input [material]="true" [formCtr]="phone_number" label="Número de teléfono" placeholder="Número de teléfono">
+            </app-input>
+            <span class="error-msg"
+                    *ngIf="phone_number?.errors?.required && phone_number?.dirty">Escriba el
+                    teléfono</span>
+                <span class="error-msg" *ngIf="phone_number?.errors?.pattern">Fomato de teléfono incorrecto </span>
+                <span class="error-msg" *ngIf="phone_number?.errors?.maxLength">El teléfono debe contener 10 dígitos </span>
+                <span class="error-msg" *ngIf="phone_number?.errors?.minlength">El teléfono debe contener 10 dígitos </span>
+        </div>
+
+        <div class="row2">
+            <app-input [material]="true" [formCtr]="street" label="Dirección" placeholder="Dirección">
+            </app-input>
+            <span class="error-msg" *ngIf="street?.errors?.required && street?.dirty">Escriba
+                la
+                dirección</span>
+        </div>
+
+        <div class="row3">
+            <label class="ext">
+                <app-input [material]="true" [formCtr]="ext_number" label="Número exterior" placeholder="#">
+                </app-input>
+                <span class="error-msg"
+                        *ngIf="ext_number?.errors?.required && ext_number?.dirty">Escriba el
+                        número</span>
+            </label>
+
+            <label class="int">
+                <app-input [material]="true" [formCtr]="int_number" label="Número interior" placeholder="#"></app-input>
+            </label>
+
+            <label class="colonia">
+                <app-input [material]="true" [formCtr]="neighborhood" label="Colonia" placeholder="Colonia">
+                </app-input>
+                <span class="error-msg"
+                        *ngIf="neighborhood?.errors?.required && neighborhood?.dirty">
+                        Escriba la colonia
+                    </span>
+            </label>
+        </div>
+
+        <div class="row4">
+            <app-select selectKey="id" [showLabel]="true" displayKey="name" label="País" placeholder="País" [data]="countries$ | async"
+                [formGrp]="addressForm" formCtr="country" [disableReset]="true">
+            </app-select>
+            <span class="error-msg" *ngIf="country?.invalid && country?.dirty">
+                Elija el país
+            </span>
+
+            <app-select selectKey="id" displayKey="name" label="Estado" placeholder="Estado" [data]="states$ | async"
+                [formGrp]="addressForm" formCtr="state">
+                <span class="error-msg" *ngIf="state?.invalid && state?.dirty">Elija el
+                    estado</span>
+            </app-select>
+
+            <app-select selectKey="id" displayKey="name" label="Municipio" placeholder="Municipio"
+                [data]="municipalities$ | async" [formGrp]="addressForm" formCtr="municipality">
+                <span class="error-msg" *ngIf="municipality?.invalid && municipality?.dirty">
+                    Elija la ciudad
+                </span>
+            </app-select>
+        </div>
+
+        <label class="row5">
+            <app-input [material]="true" [formCtr]="postal_code" label="Código postal" placeholder="Código postal">
+                <span class="error-msg" *ngIf="postal_code?.errors?.required && postal_code?.dirty">Escriba el código postal</span>
+                <span class="error-msg" *ngIf="postal_code?.errors?.maxLength">Máximo 6 números</span>
+                <span class="error-msg" *ngIf="postal_code?.errors?.pattern">Escriba sólo números</span>
+            </app-input>
+        </label>
+
+        <label class="row6">
+            <app-input [material]="true" [formCtr]="reference" label="Referencias" placeholder="Referencias"></app-input>
+            <span class="error-msg" *ngIf="reference?.errors?.required && reference?.dirty">Escriba referencias</span>
+        </label>
+
+        <mat-list class="row7">
+            <mat-list-item>
+                <mat-checkbox *ngIf="!default" style="padding: 0;" (change)="defaultChange($event.checked)"
+                    formGroupName="delivery_default" style="color: gray;">
+                    Hacer predeterminada
+                </mat-checkbox>
+            </mat-list-item>
+        </mat-list>
+
+        <div class="modal-buttons">
+            <div class="address-btn">
+                <app-button class="address-btn" (click)="sendAddress()" text="Guardar cambios"></app-button>
+            </div>
+        </div>
+    </form>
+</app-modal>
+
+<!-- <app-modal [title]="'Eliminar'" #modalDelete [dialogConfig]="{ width: '30%', height: '50%' }">
+
+    <div class="modal-delete-content">
+        <p>¿Está seguro de eliminar la dirección?</p>
+    </div>
+
+    <div class="modal-delete-buttons">
+        <app-button theme="secondary" class="btn" (click)="closeDeleteModal()" text="Cancelar"></app-button>
+        <app-button class="btn" (click)="confirmDelete()" text="Confirmar"></app-button>
+    </div>
+</app-modal> -->

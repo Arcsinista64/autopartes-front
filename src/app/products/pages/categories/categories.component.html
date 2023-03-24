@@ -1,0 +1,60 @@
+<div class="small-searcher">
+    <app-search-small title="Categorías"></app-search-small>
+</div>
+<app-breadcrumb [array]="crumbData"></app-breadcrumb>
+<app-title title="Categorías"></app-title>
+<div class="category-filter">
+    <div class="category-filter-content">
+        <p>Filtrar por categoría:</p>
+        <mat-form-field appearance="standard" *ngIf="categories$ | async as categories">
+            <mat-select placeholder="Categoría" (selectionChange)="filterSubcategories($event)">
+                <mat-option [value]="null">Todas</mat-option>
+                <mat-option *ngFor="let item of categories" [value]="item">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+<div class="border-alphabet">
+    <div class="filter-tabs">
+        <p *ngFor="let item of alphabet; let i = index" (click)="filterByAlphabet(i+65)">
+            {{item}}
+        </p>
+    </div>
+</div>
+
+<ng-container *ngIf="subcategories$ | async">
+    <div class="border-subcategories">
+        <div class="filtered-subcategories">
+            <div class="letter">
+                <p>{{selected}}</p>
+            </div>
+            <div class="subcategories">
+                <p *ngFor="let item of subcategories; let i = index" (click)="goTo(item.id)">{{item.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="selected2" class="border-subcategories">
+        <div class="filtered-subcategories">
+            <div class="letter">
+                <p>{{selected2}}</p>
+            </div>
+            <div class="subcategories">
+                <p *ngFor="let item of subcategories2; let i = index" (click)="goTo(item.id)">{{item.name}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="selected3" class="border-subcategories"> 
+        <div class="filtered-subcategories">
+            <div class="letter">
+                <p>{{selected3}}</p>
+            </div>
+            <div class="subcategories">
+                <p *ngFor="let item of subcategories3; let i = index" (click)="goTo(item.id)">{{item.name}}</p>
+            </div>
+        </div>
+    </div>
+</ng-container>

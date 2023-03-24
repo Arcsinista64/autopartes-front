@@ -1,0 +1,26 @@
+.featured-products-content { 
+    margin: 36px 10%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 48px 24px;
+
+    .iterator-card { 
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 700px) { 
+    .featured-products-content { 
+        margin: 36px 24px;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 48px 24px;
+    }
+}
+
+@media screen and (max-width: 500px) { 
+    .featured-products-content { 
+        margin: 36px 24px;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px 24px;
+    }
+}
